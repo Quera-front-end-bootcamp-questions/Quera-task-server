@@ -15,11 +15,7 @@ if (!MONGODB_URI) {
 
 async function dbConnect() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/SalarDb", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    });
+    await mongoose.connect("mongodb://localhost:27017/SalarDb");
     console.log("Connected to MongoDB");
     await seedData(); // call seedData function
   } catch (error) {
