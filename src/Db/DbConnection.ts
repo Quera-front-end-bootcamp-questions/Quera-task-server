@@ -1,26 +1,16 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import seedData from "./Seed";
-dotenv.config();
+// database.ts
 
-const MONGODB_URI: string = process.env.MONGODB_URI!;
-const MONGODB_URI_SERVER: string = process.env.MONGODB_URI_SERVER!;
-let env: string = process.env.NODE_ENV || "development";
+import { PrismaClient } from '@prisma/client';
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+const prisma = new PrismaClient();
 
 async function dbConnect() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/SalarDb");
-    console.log("Connected to MongoDB");
-    await seedData(); // call seedData function
+    await prisma.$connect();
+    console.log('Connected to database!');
   } catch (error) {
-    console.log("Error connecting to MongoDB", error);
+    console.error('Failed to connect to database', error);
   }
 }
 
-export default dbConnect;
+export { prisma, dbConnect };

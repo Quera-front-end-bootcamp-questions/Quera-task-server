@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -10,120 +9,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Import model definitions
+import { User, userFields } from '../src/Models/User/User.ts';
+import { Workspace, workspaceFields } from '../src/Models/Workspace/Workspace.ts';
+import { WorkspaceMember, workspaceMemberFields } from '../src/Models/WorkspaceMember/WorkspaceMember.ts';
+import { Project, projectFields } from '../src/Models/Project/Project.ts';
+import { ProjectMember, projectMemberFields } from '../src/Models/ProjectMember/ProjectMember.ts';
+import { Board, boardFields } from '../src/Models/Board/Board.ts';
+import { Task, taskFields } from '../src/Models/Task/Task.ts';
+import { TaskAssignee, taskAssigneeFields } from '../src/Models/TaskAssignee/TaskAssignee.ts';
+import { TaskTag, taskTagFields } from '../src/Models/TaskTag/TaskTag.ts';
+import { Comment, commentFields } from '../src/Models/Comment/Comment.ts';
+import { Setting, settingFields } from '../src/Models/Setting/Setting.ts';
+import { Tag, tagFields } from '../src/Models/Tag/Tag.ts';
+
+// Define Prisma models using imported fields
 model User {
   id             Int        @id @default(autoincrement())
-  username       String     @unique
-  firstname      String?
-  lastname       String?
-  email          String?    @unique
-  password_hash  String
-  profile_url    String?
-  phone          String?
-  workspaces     Workspace[]
-  workspaceMember WorkspaceMember[]
-  taskAssignees  TaskAssignee[]
-  comments       Comment[]
-  settings       Setting[]
-  projectMember  ProjectMember[]
+  ...userFields
 }
 
 model Workspace {
   id         Int           @id @default(autoincrement())
-  name       String
-  createdAt  DateTime      @default(now())
-  image      String?
-  user       User          @relation(fields: [userId], references: [id])
-  userId     Int
-  members    WorkspaceMember[]
-  projects   Project[]
+  ...workspaceFields
 }
 
 model WorkspaceMember {
-  userId      Int
-  workspaceId Int
-  user        User          @relation(fields: [userId], references: [id])
-  Workspace   Workspace     @relation(fields: [workspaceId], references: [id])
+  ...workspaceMemberFields
 
   @@id([userId, workspaceId])
 }
 
 model Project {
   id           Int           @id @default(autoincrement())
-  name         String
-  workspace    Workspace     @relation(fields: [workspaceId], references: [id])
-  workspaceId  Int
-  members      ProjectMember[]
-  boards       Board[]
+  ...projectFields
 }
 
 model ProjectMember {
-  projectId  Int
-  userId     Int
-  role       String?
-  user       User          @relation(fields: [userId], references: [id])
-  project    Project       @relation(fields: [projectId], references: [id])
+  ...projectMemberFields
 
   @@id([projectId, userId])
 }
 
 model Board {
   id         Int      @id @default(autoincrement())
-  name       String
-  position   Int
-  project    Project  @relation(fields: [projectId], references: [id])
-  projectId  Int
-  tasks      Task[]
+  ...boardFields
 }
 
 model Task {
   id          Int        @id @default(autoincrement())
-  name        String
-  deadline    DateTime?
-  label       String?
-  board       Board      @relation(fields: [boardId], references: [id])
-  boardId     Int
-  taskTags    TaskTag[]
-  taskAssigns TaskAssignee[]
-  comments    Comment[]
-}
-
-model TaskTag {
-  taskId  Int
-  tagId   Int
-  Task    Task  @relation(fields: [taskId], references: [id])
-  Tag     Tag   @relation(fields: [tagId], references: [id])
-
-  @@id([taskId, tagId])
-}
-
-model Tag {
-  id    Int     @id @default(autoincrement())
-  name  String  
-  tasks TaskTag[]
+  ...taskFields
 }
 
 model TaskAssignee {
-  taskId  Int
-  userId  Int
-  Task    Task  @relation(fields: [taskId], references: [id])
-  User    User  @relation(fields: [userId], references: [id])
+  ...taskAssigneeFields
 
   @@id([taskId, userId])
 }
 
+model TaskTag {
+  ...taskTagFields
+
+  @@id([taskId, tagId])
+}
+
 model Comment {
   id         Int       @id @default(autoincrement())
-  text       String
-  createdAt  DateTime  @default(now())
-  user       User      @relation(fields: [userId], references: [id])
-  task       Task      @relation(fields: [taskId], references: [id])
-  userId     Int
-  taskId     Int
+  ...commentFields
 }
 
 model Setting {
   id        Int   @id @default(autoincrement())
-  theme     String?
-  user      User  @relation(fields: [userId], references: [id])
-  userId    Int
+  ...settingFields
+}
+
+model Tag {
+  id    Int     @id @default(autoincrement())
+  ...tagFields
 }
