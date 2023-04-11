@@ -1,24 +1,17 @@
-import CryptoJS from "crypto-js";
+import bcrypt from "bcrypt";
 
-const TokenKey: string ="thisisynweriwei1213212jejejejejejeaiosdkjiowhei91@##$@%wea%$%*";
+const SALT_ROUNDS = 10;
 
-// Encrypt
-const encrypt = (input: string): string => {
-  const ciphertext = CryptoJS.AES.encrypt(input, TokenKey).toString();
-  return ciphertext;
+// Encrypt password
+const encrypt = async (password: string): Promise<string> => {
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+  return hashedPassword;
 };
 
-// Decrypt
-const decrypt = (input: string): string => {
-  const bytes = CryptoJS.AES.decrypt(input, TokenKey);
-  const originalText = bytes.toString(CryptoJS.enc.Utf8);
-
-  return originalText;
+// Compare password
+const compareHash = async (noneHash: string, hash: string): Promise<boolean> => {
+  const isMatch: boolean = await bcrypt.compare(noneHash, hash);
+  return isMatch;
 };
 
-const compareHash = (noneHash: string, hash: string):boolean => {
-  const decrypted = decrypt(hash);
-  const isMatch: boolean = noneHash === decrypted;
-  return isMatch
-};
-export { decrypt, encrypt, compareHash };
+export { encrypt, compareHash };

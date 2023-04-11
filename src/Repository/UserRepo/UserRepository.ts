@@ -16,7 +16,7 @@ const getUserById = async (id: number) => {
     { path: "comments" },
     { path: "settings" },
     { path: "projectMember" },
-  ]);
+  ]).select('-password_hash -__v');
 };
 
 const getAllUsers = async () => {
@@ -35,7 +35,7 @@ const deleteUser = async (id: number) => {
 
 const getUserByEmail = async (email: string): Promise<any | null> => {
   try {
-    const user = await User.findOne({ email: email }).exec();
+    const user = await User.findOne({ email: email }).select('-password_hash -__v');
     return user;
   } catch (error) {
     console.error(error);
@@ -44,7 +44,7 @@ const getUserByEmail = async (email: string): Promise<any | null> => {
 };
 
 const getUserByUsername = async (username: string) => {
-  return User.findOne({ username });
+  return User.findOne({ username }).select('-password_hash -__v');
 };
 
 export {
