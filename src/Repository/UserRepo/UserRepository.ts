@@ -1,7 +1,12 @@
 import User from "../../Models/User/User";
 const createUser = async (userData: any) => {
-  return await User.create(userData);
+  if (userData !== undefined && userData !== null) {
+    return await User.create(userData);
+  } else {
+    throw new Error("userData parameter is undefined or null");
+  }
 };
+
 
 const getUserById = async (id: number) => {
   return User.findOne({ id }).populate([

@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-const TokenKey: string = process.env.TOKEN_KEY!;
+const TokenKey: string ="thisisynweriwei1213212jejejejejejeaiosdkjiowhei91@##$@%wea%$%*";
 
 // Encrypt
 const encrypt = (input: string): string => {
