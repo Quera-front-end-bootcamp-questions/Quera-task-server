@@ -1,22 +1,10 @@
-// models/projectMember.ts
+const mongoose = require('mongoose');
+const projectMemberSchema = new mongoose.Schema({
+  projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  role: String
+});
 
-import { Prisma, ProjectMember } from '@prisma/client';
-import { User, userFields } from '../User/User';
-import { Project, projectFields } from '../Project/Project';
+const ProjectMember = mongoose.model('ProjectMember', projectMemberSchema);
 
-const projectMemberFields: Prisma.ProjectMemberSelect = {
-  projectId: true,
-  userId: true,
-  role: true,
-  user: {
-    select: userFields,
-  },
-  project: {
-    select: projectFields,
-  },
-};
-
-export {
-  ProjectMember,
-  projectMemberFields,
-};
+export default ProjectMember;

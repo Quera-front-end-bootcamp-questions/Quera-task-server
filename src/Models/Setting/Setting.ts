@@ -1,17 +1,10 @@
-// models/setting.ts
+const mongoose = require('mongoose');
+const settingSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  theme: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+});
 
-import { Prisma, Setting } from '@prisma/client';
-import { User, userFields } from '../User/User';
+const Setting = mongoose.model('Setting', settingSchema);
 
-const settingFields: Prisma.SettingSelect = {
-  id: true,
-  theme: true,
-  user: {
-    select: userFields,
-  },
-};
-
-export {
-  Setting,
-  settingFields,
-};
+export default Setting

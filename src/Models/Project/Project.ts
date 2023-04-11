@@ -1,25 +1,12 @@
-// models/project.ts
+const mongoose = require('mongoose');
+const projectSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  workspace: { type: mongoose.Schema.Types.ObjectId, ref: 'Workspace', required: true },
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProjectMember' }],
+  boards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }]
+});
 
-import { Prisma, Project } from '@prisma/client';
-import { Workspace, workspaceFields } from '../Workspace/Workspace';
-import { ProjectMember, projectMemberFields } from '../ProjectMember/ProjectMember';
-import { Board, boardFields } from '../Board/Board';
+const Project = mongoose.model('Project', projectSchema);
 
-const projectFields: Prisma.ProjectSelect = {
-  id: true,
-  name: true,
-  workspace: {
-    select: workspaceFields,
-  },
-  members: {
-    select: projectMemberFields,
-  },
-  boards: {
-    select: boardFields,
-  },
-};
-
-export {
-  Project,
-  projectFields,
-};
+export default Project;

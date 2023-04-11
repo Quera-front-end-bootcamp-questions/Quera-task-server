@@ -1,22 +1,12 @@
-// models/board.ts
+const mongoose = require('mongoose');
+const boardSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  position: Number,
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project', required: true },
+  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]
+});
 
-import { Prisma, Board } from '@prisma/client';
-import { Project, projectFields } from '../Project/Project';
-import { Task, taskFields } from '../Task/Task';
+const Board = mongoose.model('Board', boardSchema);
 
-const boardFields: Prisma.BoardSelect = {
-  id: true,
-  name: true,
-  position: true,
-  project: {
-    select: projectFields,
-  },
-  tasks: {
-    select: taskFields,
-  },
-};
-
-export {
-  Board,
-  boardFields,
-};
+export default Board

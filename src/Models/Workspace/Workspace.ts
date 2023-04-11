@@ -1,27 +1,14 @@
-// models/workspace.ts
+const mongoose = require('mongoose');
+const workspaceSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  image: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkspaceMember' }],
+  projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }]
+});
 
-import { Prisma, Workspace } from '@prisma/client';
-import { User, userFields } from '../User/User';
-import { WorkspaceMember, workspaceMemberFields } from '../WorkspaceMember/WorkspaceMember';
-import { Project, projectFields } from '../Project/Project';
+const Workspace = mongoose.model('Workspace', workspaceSchema);
 
-const workspaceFields: Prisma.WorkspaceSelect = {
-  id: true,
-  name: true,
-  createdAt: true,
-  image: true,
-  user: {
-    select: userFields,
-  },
-  members: {
-    select: workspaceMemberFields,
-  },
-  projects: {
-    select: projectFields,
-  },
-};
-
-export {
-  Workspace,
-  workspaceFields,
-};
+export default Workspace

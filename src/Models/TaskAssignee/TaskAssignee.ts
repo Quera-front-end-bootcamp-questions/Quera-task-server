@@ -1,21 +1,9 @@
-// models/taskAssignee.ts
+const mongoose = require('mongoose');
+const taskAssigneeSchema = new mongoose.Schema({
+  taskId: { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+});
 
-import { Prisma, TaskAssignee } from '@prisma/client';
-import { Task, taskFields } from '../Task/Task';
-import { User, userFields } from '../User/User';
+const TaskAssignee = mongoose.model('TaskAssignee', taskAssigneeSchema);
 
-const taskAssigneeFields: Prisma.TaskAssigneeSelect = {
-  taskId: true,
-  userId: true,
-  Task: {
-    select: taskFields,
-  },
-  User: {
-    select: userFields,
-  },
-};
-
-export {
-  TaskAssignee,
-  taskAssigneeFields,
-};
+export default TaskAssignee

@@ -1,23 +1,22 @@
-import { Prisma, User } from '@prisma/client';
+const mongoose = require('mongoose');
 
-const userFields: Prisma.UserSelect = {
-  id: true,
-  username: true,
-  firstname: true,
-  lastname: true,
-  email: true,
-  password_hash: true,
-  profile_url: true,
-  phone: true,
-  workspaces: true,
-  workspaceMember: true,
-  taskAssignees: true,
-  comments: true,
-  settings: true,
-  projectMember: true,
-};
+const userSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  username: { type: String, required: true },
+  firstname: String,
+  lastname: String,
+  email: String,
+  password_hash: { type: String, required: true },
+  profile_url: String,
+  phone: String,
+  workspaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Workspace' }],
+  workspaceMember: [{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkspaceMember' }],
+  taskAssignees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskAssignee' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  settings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Setting' }],
+  projectMember: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProjectMember' }]
+});
 
-export {
-  User,
-  userFields,
-};
+const User = mongoose.model('User', userSchema);
+
+export default User;

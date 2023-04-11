@@ -1,22 +1,11 @@
-// models/comment.ts
+const mongoose = require('mongoose');
 
-import { Prisma, Comment } from '@prisma/client';
-import { User, userFields } from '../User/User';
-import { Task, taskFields } from '../Task/Task';
+const commentSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  text: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  task: { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true }
+});
 
-const commentFields: Prisma.CommentSelect = {
-  id: true,
-  text: true,
-  createdAt: true,
-  user: {
-    select: userFields,
-  },
-  task: {
-    select: taskFields,
-  },
-};
-
-export {
-  Comment,
-  commentFields,
-};
+const Comment = mongoose.model('Comment', commentSchema);

@@ -1,31 +1,16 @@
-// models/task.ts
+const mongoose = require('mongoose');
 
-import { Prisma, Task } from '@prisma/client';
-import { Board, boardFields } from '../Board/Board';
-import { TaskTag, taskTagFields } from '../TaskTag/TaskTag';
-import { TaskAssignee, taskAssigneeFields } from '../TaskAssignee/TaskAssignee';
-import { Comment, commentFields } from '../Comment/Comment';
+const taskSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  deadline: Date,
+  label: String,
+  board: { type: mongoose.Schema.Types.ObjectId, ref: 'Board', required: true },
+  taskTags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskTag' }],
+  taskAssigns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskAssignee' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+});
 
-const taskFields: Prisma.TaskSelect = {
-  id: true,
-  name: true,
-  deadline: true,
-  label: true,
-  board: {
-    select: boardFields,
-  },
-  taskTags: {
-    select: taskTagFields,
-  },
-  taskAssigns: {
-    select: taskAssigneeFields,
-  },
-  comments: {
-    select: commentFields,
-  },
-};
+const Task = mongoose.model('Task', taskSchema);
 
-export {
-  Task,
-  taskFields,
-};
+export default Task

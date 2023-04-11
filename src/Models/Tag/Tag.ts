@@ -1,17 +1,11 @@
-// models/tag.ts
+const mongoose = require('mongoose');
 
-import { Prisma, Tag } from '@prisma/client';
-import { TaskTag, taskTagFields } from '../TaskTag/TaskTag';
+const tagSchema = new mongoose.Schema({
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
+  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskTag' }]
+});
 
-const tagFields: Prisma.TagSelect = {
-  id: true,
-  name: true,
-  tasks: {
-    select: taskTagFields,
-  },
-};
+const Tag = mongoose.model('Tag', tagSchema);
 
-export {
-  Tag,
-  tagFields,
-};
+export default Tag

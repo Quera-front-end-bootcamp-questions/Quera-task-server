@@ -3,10 +3,9 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
-import { dbConnect } from "../Db/DbConnection"; // import the dbConnect function
+import dbConnect from "../Db/DbConnection"; // import the dbConnect function
 
-const middlewares = require("../MiddleWares/MiddleWares");
-const userModel = require("../Models/User");
+import userRouter from '../Routes/User/User.Route';
 
 require("dotenv").config();
 
@@ -20,11 +19,11 @@ App.use(express.json());
 // call the dbConnect function
 dbConnect();
 
+App.use('/api/user', userRouter);
+
+
 App.get("/", async (req: Request, res: Response) => {
   res.send("Download postman file");
 });
-
-App.use(middlewares.notFound);
-App.use(middlewares.errorHandler);
 
 export default App;
