@@ -61,7 +61,7 @@ const registerUserController = async (
   }
 };
 
- const loginUserController = async (req: Request, res: Response) => {
+const loginUserController = async (req: Request, res: Response) => {
   const { emailOrUsername, password } = req.body;
 
   // Find user by email or username
@@ -88,7 +88,7 @@ const registerUserController = async (
   return sendResponse(
     res,
     200,
-    { accessToken, refreshToken },
+    { accessToken, refreshToken, user },
     "User logged in successfully"
   );
 };
