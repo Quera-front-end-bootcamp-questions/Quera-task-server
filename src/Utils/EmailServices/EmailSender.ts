@@ -1,8 +1,7 @@
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-import IMailDataInterface from "../../Core/Interfaces/IMaildataInterface";
 
-const EmailSender = (email: string, mailData: IMailDataInterface, cB: any) => {
+const EmailSender = (email: string, mailData: any, cB: any) => {
   const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
     nodemailer.createTransport({
       service: "gmail",
