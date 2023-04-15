@@ -7,18 +7,25 @@ const EmailSender = (email: string, mailData: any, cB: any) => {
       service: "gmail",
       secure: true,
       auth: {
-        user: process.env.gmailEmail,
-        pass: process.env.gmailPass,
+        user:"salarnili.ir@gmail.com",
+        pass: "tfkxtqworgkpbiqr",
       },
     });
 
   const mailOptions = {
-    from: process.env.gmailEmail,
+    from: "salarnili.ir@gmail.com",
     to: email,
     subject: mailData.subject,
     html: mailData.html,
   };
-
+  transporter.verify(function(error, success) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
+  
   transporter.sendMail(mailOptions, async (error: any, info: any) => {
     const data = {
       error: error,

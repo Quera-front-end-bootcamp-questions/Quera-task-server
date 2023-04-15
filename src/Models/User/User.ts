@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   password_hash: { type: String, required: true },
   profile_url: String,
   phone: String,
+  password_reset_token: String, // Add this line to define the password_reset_token field
   workspaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Workspace' }],
   workspaceMember: [{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkspaceMember' }],
   taskAssignees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskAssignee' }],
