@@ -49,7 +49,14 @@ const getUserByUsername = async (username: string) => {
 };
 
 const updatePasswordResetToken = async (userId: number, token: string) => {
-  return User.updateOne({ id: userId }, { passwordResetToken: token });
+  const user = await User.findOne({ id: userId });
+  if (user) {
+    user.password_reset_token = token;
+    await user.save();
+    return user;
+  } else {
+    return null;
+  }
 };
 
 const getUserByPasswordResetToken = async (token: string) => {
