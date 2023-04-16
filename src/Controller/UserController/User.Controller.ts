@@ -146,9 +146,28 @@ const resetPasswordController = async (
   return sendResponse(res, 200, null, "Password reset successfully");
 };
 
+//create refresh token api for user
+const createRefreshTokenController = async (req: Request, res: Response) => {
+  const { refreshToken } = req.body;
+
+  // Verify refresh token
+  const decoded: any = createRefreshToken(refreshToken);
+
+  // Create new access token
+  const accessToken = createAccessToken(decoded);
+
+  // Send response
+  return sendResponse(
+    res,
+    200,
+    { accessToken },
+    "Refresh token created successfully"
+  );
+};
 export {
   registerUserController,
   loginUserController,
+  createRefreshTokenController,
   forgotPasswordController,
   resetPasswordController,
 };
