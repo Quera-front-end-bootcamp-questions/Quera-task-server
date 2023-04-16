@@ -1,4 +1,7 @@
 import User from "../../Models/User/User";
+
+//create function
+
 const createUser = async (userData: any) => {
   if (userData !== undefined && userData !== null) {
     return await User.create(userData);
@@ -34,9 +37,7 @@ const deleteUser = async (id: number) => {
 
 const getUserByEmail = async (email: string): Promise<any | null> => {
   try {
-    const user = await User.findOne({ email: email }).select(
-      "-password_hash -__v"
-    );
+    const user = await User.findOne({ email: email });
     return user;
   } catch (error) {
     console.error(error);
@@ -45,11 +46,11 @@ const getUserByEmail = async (email: string): Promise<any | null> => {
 };
 
 const getUserByUsername = async (username: string) => {
-  return User.findOne({ username }).select("-password_hash -__v");
+  return User.findOne({ username });
 };
 
 const updatePasswordResetToken = async (userId: number, token: string) => {
-  const user = await User.findOne({ id: userId });
+  const user = await User.findOne({ _id: userId });
   if (user) {
     user.password_reset_token = token;
     await user.save();

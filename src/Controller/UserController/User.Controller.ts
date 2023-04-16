@@ -16,20 +16,7 @@ import {
 } from "../../Utils/Jsonwebtoken";
 import { compareHash } from "../../Utils/Crypto/Crypto";
 import EmailSender from "../../Utils/EmailServices/EmailSender";
-interface UserRequestBody {
-  username: string;
-  firstname?: string;
-  lastname?: string;
-  email?: string;
-  password_hash: string;
-  profile_url?: string;
-  phone?: string;
-}
 
-interface LoginRequestBody {
-  email: string;
-  password: string;
-}
 const registerUserController = async (
   req: Request<any, any, any>,
   res: Response
