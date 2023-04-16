@@ -5,7 +5,7 @@ import cors from "cors";
 
 import dbConnect from "../Db/DbConnection"; // import the dbConnect function
 
-import userRouter from '../Routes/User/User.Route';
+import userRouter from '../Routes/Auth/Auth.Route';
 
 require("dotenv").config();
 
