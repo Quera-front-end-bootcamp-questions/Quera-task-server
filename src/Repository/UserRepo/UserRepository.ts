@@ -25,4 +25,19 @@ const getUserById = async (id: number): Promise<any | null> => {
   }
 };
 
-export { getUserByEmail, getUserById, getUserByUsername };
+const updateUser = async (id: string, updates: any): Promise<any> => {
+  const user = await User.findById(id);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  Object.assign(user, updates);
+  await user.save();
+
+  return user;
+};
+
+export default updateUser;
+
+export { getUserByEmail, getUserById, getUserByUsername, updateUser };
