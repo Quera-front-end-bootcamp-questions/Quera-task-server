@@ -1,5 +1,5 @@
 import Project from "../../Models/Project/Project";
-import Workspace from "../../Models/Workspace/Workspace";
+import {Workspace} from "../../Models/Workspace/Workspace";
 import ProjectMember from "../../Models/ProjectMember/ProjectMember";
 
 const createProject = async (
@@ -13,6 +13,7 @@ const createProject = async (
     throw new Error("Workspace not found");
   }
 
+  // TODO potential bug here
   const project = await Project.create({
     name,
     workspace: workspaceId,

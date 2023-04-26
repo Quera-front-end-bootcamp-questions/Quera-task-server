@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const projectSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
   name: { type: String, required: true },
   workspace: { type: mongoose.Schema.Types.ObjectId, ref: 'Workspace', required: true },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProjectMember' }],

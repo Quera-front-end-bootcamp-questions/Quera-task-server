@@ -1,0 +1,457 @@
+{
+	"info": {
+		"_postman_id": "4e4e72cc-d8c0-40c9-b259-a213f58d7157",
+		"name": "Academy Spring Copy",
+		"description": "**All Requests and Responses in this Project**.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login/Register",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"John Doe\",\n    \"email\": \"example@example.com\",\n    \"password\": \"12345678\",\n    \"phoneNumber\": \"09222222222\",\n    \"birthDate\": \"1357/01/26\",\n    \"nationalId\":\"6745556256\",\n    \"profile\": \"image.png\"\n}"
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "**Registering** takes two arguments from Body:\n* fullName\n* email\n* password\n* PhoneNumber\n* birthDate\n\n> **FullName** type is `string` and must be at list 2 character.<br>\n> **Email** type is `string` and must be in correct format.<br>\n> **Password** type is `string` and must be at list 8 character.<br>\n> **PhoneNumber** type is `string` and must be at list 10 & maximum 15 character.<br>\n> **BirthDate** type is `string` and must be in date format `1370/01/01`.\n\n----\n**Response** <br>\n\nIf registeration was successful we have two steps:\n\n> Return Success message with `true`.<br>\n> Call login method automatically.\n\n\nOtherwise:\n> Return error message with `false`.\n\n<br><br>\n\n\nIn **response** we return diffrent types of response Object based on diffrent conditions:\n\n    {\n    \t\"success\": Boolean,\n    \t\"message\": {\n        \t\"eventId\": HttpStatusCode,\n        \t\"messageId\": id,\n        \t\"type\": Message Type,\n        \t\"message\": [\n            \t{\n                \t\"eventId\": HttpStatusCode,\n                \t\"type\": Message Type,\n                \t\"message\": \"Message Text\"\n            \t}\n        \t]\n    \t}\n    }\n    \n<br>\n\n**Message Type Values**:<br>\n`MessageType = {\n  error: 0,\n  warning: 1,\n  info: 2\n};`"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const user = pm.response.json();\r",
+									"\r",
+									"if (pm.test(\"Has properties\")) {\r",
+									"    pm.globals.set('jwtToken', user.result.jwtToken);\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Global token has been set\", function() {\r",
+									"    var token = pm.globals.get('jwtToken');\r",
+									"    pm.expect(token).to.eql(user.result.jwtToken);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"masg1377@gmail.com\",\n    \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "**Login** takes two arguments from Body:\n* Email\n* Password\n\n>**Email** type is `string` and must be in correct format.<br>\n>**Password** type is `string` and must be at list 8 character.\n\n----\n**Response** <br>\n\nIf Login was successful we have two steps:\n\n> Generate `JasonWebToken`.<br>\n> Redirect to destination page.\n\nOtherwise:\n> Return error message with `false`.\n\n<br><br>\n\n\nIn **response** we return diffrent types of response Object based on diffrent conditions:\n\n    {\n    \t\"success\": Boolean,\n    \t\"message\": {\n        \t\"eventId\": HttpStatusCode,\n        \t\"messageId\": id,\n        \t\"type\": Message Type,\n        \t\"message\": [\n            \t{\n                \t\"eventId\": HttpStatusCode,\n                \t\"type\": Message Type,\n                \t\"message\": \"Message Text\"\n            \t}\n        \t]\n    \t}\n    }\n    \n<br>\n\n**Message Type Values**:<br>\n`MessageType = {\n  error: 0,\n  warning: 1,\n  info: 2\n};`"
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"example@example.com\"\n}"
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/forgetpassword",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"forgetpassword"
+							]
+						},
+						"description": "**Forget Password** only takes one arguments from Body:\n* Email\n\n>**Email** type is `string` and must be in correct format.\n----\n<br>\n\nIn **response** we return diffrent types of response Object based on diffrent conditions:\n\n    {\n    \t\"success\": Boolean,\n    \t\"message\": {\n        \t\"eventId\": HttpStatusCode,\n        \t\"messageId\": id,\n        \t\"type\": Message Type,\n        \t\"message\": [\n            \t{\n                \t\"eventId\": HttpStatusCode,\n                \t\"type\": Message Type,\n                \t\"message\": \"Message Text\"\n            \t}\n        \t]\n    \t}\n    }\n    \n<br>\n\n**Message Type Values**:<br>\n`MessageType = {\n  error: 0,\n  warning: 1,\n  info: 2\n};`"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123456789\"\n}"
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/resetPassword/:token",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"resetPassword",
+								":token"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						},
+						"description": "**Reset Password**  takes two arguments:\n* Password\n* Token\n\n> Type is `string` and must be at least 8 character for both.\n----\n<br>\n\nIn **response** we return diffrent types of response Object based on diffrent conditions:\n\n    {\n    \t\"success\": Boolean,\n    \t\"message\": {\n        \t\"eventId\": HttpStatusCode,\n        \t\"messageId\": id,\n        \t\"type\": Message Type,\n        \t\"message\": [\n            \t{\n                \t\"eventId\": HttpStatusCode,\n                \t\"type\": Message Type,\n                \t\"message\": \"Message Text\"\n            \t}\n        \t]\n    \t}\n    }\n    \n<br>\n\n**Message Type Values**:<br>\n`MessageType = {\n  error: 0,\n  warning: 1,\n  info: 2\n};`"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "Get All Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/getall",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Course For Pagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/list?pagenumber=1&pagesize=2",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"list"
+							],
+							"query": [
+								{
+									"key": "pagenumber",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/62812207196cd506bcece646",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"62812207196cd506bcece646"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Student to Course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjgxMjE2MTZiZWZjZDNmODQzOTcwODQiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NTI2Mjk4ODV9.RYwyhkF3_nJpFv7O2Wy9lT0TpKRxcC80TCy-M9rnlXA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"courseId\":\"628284699a4090194c4c94bc\"\n}"
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/addStudentToCourse/:userId",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"addStudentToCourse",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": null
+								}
+							]
+						},
+						"description": "**This** takes argument from Body:\n* TermId\n\n>**TermId** type is `ObjectId` and must be in correct format.<br>\n>**StudentId** type `ObjectId` from URL params\n\n----\n**Response** <br>\n<br>\n\nIn **response** we return diffrent types of response Object based on diffrent conditions:\n\n    {\n    \t\"success\": Boolean,\n    \t\"message\": {\n        \t\"eventId\": HttpStatusCode,\n        \t\"messageId\": id,\n        \t\"type\": Message Type,\n        \t\"message\": [\n            \t{\n                \t\"eventId\": HttpStatusCode,\n                \t\"type\": Message Type,\n                \t\"message\": \"Message Text\"\n            \t}\n        \t]\n    \t}\n    }\n    \n<br>\n\n**Message Type Values**:<br>\n`MessageType = {\n  error: 0,\n  warning: 1,\n  info: 2\n};`"
+					},
+					"response": []
+				},
+				{
+					"name": "Like Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courseId\": \"60e9bef7cf9a610015612787\",\r\n    \"userId\": \"628284559a4090194c4c94bb\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/like",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DisLike Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courseId\": \"60e9bef7cf9a610015612787\",\r\n    \"userId\": \"60fe996c3ebef3001576d73f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/dislike",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"dislike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Count Like Course",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"termId\": \"60fe9ac689e7af1f1c33edc2\",\r\n    \"userId\": \"5f8750df191ae122a031e070\",\r\n    \"like\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/course/likeCount/:courseId",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"course",
+								"likeCount",
+								":courseId"
+							],
+							"variable": [
+								{
+									"key": "courseId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contact Us",
+			"item": [
+				{
+					"name": "Contact-Us",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" :\"s.09334497255@gmail.com\",\r\n    \"name\" : \"\",\r\n    \"text\" : \"sallam man khobam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{apiurl}}/api/contactUs",
+							"protocol": "http",
+							"host": [
+								"{{apiurl}}"
+							],
+							"path": [
+								"api",
+								"contactUs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiurl",
+			"value": "localhost:5000"
+		},
+		{
+			"key": "publicurl",
+			"value": "http://localhost:5000"
+		}
+	]
+}

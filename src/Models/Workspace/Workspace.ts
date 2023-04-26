@@ -1,14 +1,33 @@
-const mongoose = require('mongoose');
-const workspaceSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
+// models/Workspace.ts
+import { Document, Model, Schema, model } from 'mongoose';
+
+export interface IWorkspace extends Document {
+  name: string;
+  createdAt: Date;
+  image?: string;
+  user: any;
+  members: Schema.Types.ObjectId[];
+  projects: Schema.Types.ObjectId[];
+}
+
+const workspaceSchema = new Schema<IWorkspace>({
   name: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   image: String,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkspaceMember' }],
-  projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }]
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  members: [{ type: Schema.Types.ObjectId, ref: 'WorkspaceMember' , default: []}],
+  projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }]
 });
 
-const Workspace = mongoose.model('Workspace', workspaceSchema);
 
-export default Workspace
+// Add pre middleware for findOneAndUpdate and updateMany operations
+workspaceSchema.pre(['findOneAndUpdate', 'updateMany'], function (next) {
+  const update = this.getUpdate();
+  if (update && 'createdAt' in update) {
+    delete update.createdAt;
+  }
+  next();
+});
+
+
+export const Workspace: Model<IWorkspace> = model('Workspace', workspaceSchema);

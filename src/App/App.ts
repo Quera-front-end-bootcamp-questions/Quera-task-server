@@ -7,6 +7,7 @@ import projectRouter from "../Routes/Project/Project.Route";
 import tagRouter from "../Routes/Tag/Tag.Route";
 import userRouter from "../Routes/User/User.Route";
 import authRouter from "../Routes/Auth/Auth.Route";
+import workspaceRouter from "../Routes/workspace/workspace.Route";
 require("dotenv").config();
 
 const app = express();
@@ -22,6 +23,7 @@ app.use("/api/projects", projectRouter);
 app.use("/api/tags", tagRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/workspace", workspaceRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, world!");

@@ -23,7 +23,8 @@ const registerUserController = async (
 ) => {
   try {
     const { username, email, password } = req.body;
-
+    console.log(req.body);
+    
     // Check if the email is already in use
     const existingEmail = await getUserByEmail(email);
     if (existingEmail) {
