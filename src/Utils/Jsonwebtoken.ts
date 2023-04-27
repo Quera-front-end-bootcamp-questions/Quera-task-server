@@ -16,7 +16,7 @@ export const createAccessToken = (user: User): string => {
     username: user.username,
     email: user.email,
   };
-  return jwt.sign(payload, accessTokenSecret, { expiresIn: '1d' });
+  return jwt.sign(payload, accessTokenSecret, { expiresIn: '15m' });
 };
 
 export const createRefreshToken = (user: User): string => {

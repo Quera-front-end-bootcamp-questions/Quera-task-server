@@ -64,10 +64,4 @@ router.delete(
 
 
 
-router.get(
-  '/:workspaceId/projects',
-  verifyToken,
-  createWorkspaceController as unknown as AuthenticatedRequestHandler
-);
-
 export default router;
