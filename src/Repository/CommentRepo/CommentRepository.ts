@@ -1,6 +1,7 @@
-import Comment from '../../Models/Comment/Comment';
-import User from '../../Models/User/User';
-import Task from '../../Models/Task/Task';
+import { Comment } from "../../Models/Comment/Comment";
+import { Task } from "../../Models/Task/Task";
+import { User } from "../../Models/User/User";
+
 
 const createComment = async (text: string, userId: string, taskId: string): Promise<any> => {
   const comment = await Comment.create({

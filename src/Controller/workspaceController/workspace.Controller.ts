@@ -5,16 +5,17 @@ import {
   deleteWorkspace,
   getAllWorkspacesForUser,
   getWorkspaceById,
-  getWorkspacesByProjectId,
   updateWorkspace,
 } from '../../Repository/workspaceRepo/workspaceRepository';
 import { sendResponse } from '../../Utils/SendResponse';
-import {Types } from 'mongoose';
-import { IWorkspace } from '../../Models/Workspace/Workspace';
+import { Types } from 'mongoose';
+import { IWorkspace, Workspace } from '../../Models/Workspace/Workspace';
+import { WorkspaceMember } from '../../Models/WorkspaceMember/WorkspaceMember';
+import { IUser, User } from '../../Models/User/User';
 
 export interface ICreateWorkspaceRequestBody {
   name: string;
-  members?: Types.ObjectId[];
+  members?: string[];
   projects?: Types.ObjectId[];
   image?: String;
 }
@@ -145,7 +146,6 @@ export const deleteWorkspaceController = async (
   const workspaceId = req.params.id;
 
   try {
-
     if (!workspaceId) {
       return sendResponse(res, 500, null, 'id param is missing');
     }
@@ -155,6 +155,145 @@ export const deleteWorkspaceController = async (
     return sendResponse(res, 200, project, 'workspace deleted successfully');
   } catch (error) {
     console.error(error);
+    return sendResponse(res, 500, null, 'Server error');
+  }
+};
+
+export const removeWorkspaceMemberController = async (
+  req: Request,
+  res: Response
+) => {
+  const { workspaceId, usernameOrId } = req.params;
+
+  try {
+    const workspace: IWorkspace | null = await Workspace.findById(workspaceId);
+
+    if (!workspace) {
+      return sendResponse(res, 404, null, 'Workspace not found');
+    }
+
+    // Find the user by username or member ID
+    let user: IUser | null;
+    if (usernameOrId) {
+      // Check if the provided value is a valid ObjectID
+      const isObjectId = Types.ObjectId.isValid(usernameOrId);
+      if (isObjectId) {
+        user = await User.findById(usernameOrId);
+      } else {
+        user = await User.findOne({ username: usernameOrId });
+      }
+    } else {
+      return sendResponse(res, 400, null, 'Username or member ID is required');
+    }
+
+    if (!user) {
+      return sendResponse(res, 404, null, 'User not found');
+    }
+
+    // Check if the user is a member of the workspace
+    const memberIndex = workspace.members.indexOf(user._id);
+    if (memberIndex === -1) {
+      return sendResponse(
+        res,
+        400,
+        null,
+        'User is not a member of the workspace'
+      );
+    }
+
+    // Remove the user from the workspace members array
+    workspace.members.splice(memberIndex, 1);
+
+    // Save the updated workspace
+    await workspace.save();
+
+    // Delete the WorkspaceMember document
+    await WorkspaceMember.findOneAndDelete({
+      workspaceId: new Types.ObjectId(workspaceId),
+      userId: user._id,
+    });
+
+    return sendResponse(
+      res,
+       200,
+      { workspaceId, userId: user._id },
+      'Member removed from workspace successfully'
+    );
+  } catch (error) {
+    console.error('Error removing workspace member:', error);
+    return sendResponse(res, 500, null, 'Server error');
+  }
+};
+
+export const addWorkspaceMemberController = async (
+  req: Request,
+  res: Response
+) => {
+  const { workspaceId, usernameOrId  } = req.params;
+
+  try {
+    const workspace: IWorkspace | null = await Workspace.findById(workspaceId);
+
+    if (!workspace) {
+      return sendResponse(res, 404, null, 'Workspace not found');
+    }
+
+    // Find the user by username or member ID
+    let user: IUser | null;
+    if (usernameOrId) {
+      // Check if the provided value is a valid ObjectID
+      const isObjectId = Types.ObjectId.isValid(usernameOrId);
+      if (isObjectId) {
+        user = await User.findById(usernameOrId);
+      } else {
+        user = await User.findOne({ username: usernameOrId });
+      }
+    } else {
+      return sendResponse(res, 400, null, 'Username or member ID is required');
+    }
+
+    if (!user) {
+      return sendResponse(res, 404, null, 'User not found');
+    }
+
+    // Check if the user is already a member of the workspace
+    const existingMember = await WorkspaceMember.findOne({
+      workspaceId: new Types.ObjectId(workspaceId),
+      userId: user._id,
+    });
+
+    if (existingMember) {
+      return sendResponse(
+        res,
+        400,
+        null,
+        'User is already a member of the workspace'
+      );
+    }
+
+    // Add the user to the workspace members array
+    workspace.members.push(user._id);
+
+    // Save the updated workspace
+    await workspace.save();
+
+    // Create a new WorkspaceMember document
+    const workspaceMember = new WorkspaceMember({
+      workspaceId: new Types.ObjectId(workspaceId),
+      userId: user._id,
+    });
+
+    // Save the WorkspaceMember document
+    await workspaceMember.save();
+
+    return sendResponse(
+      res,
+      200,
+      { workspaceId, userId: user._id },
+      'Member added to workspace successfully'
+    );
+  } catch (error) {
+    console.error('Error adding workspace member:', error);
     return sendResponse(res, 500, null, 'Server error');
   }
 };

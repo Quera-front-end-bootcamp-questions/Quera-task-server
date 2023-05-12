@@ -1,11 +1,13 @@
-const mongoose = require('mongoose');
+import { Schema, model, Types, Document, Model } from 'mongoose';
 
-const tagSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
+export interface ITag extends Document {
+  name: string;
+  tasks: Types.ObjectId[];
+}
+
+const tagSchema = new Schema<ITag>({
   name: { type: String, required: true },
-  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TaskTag' }]
+  tasks: [{ type: Schema.Types.ObjectId, ref: 'TaskTag' }]
 });
 
-const Tag = mongoose.model('Tag', tagSchema);
-
-export default Tag
+export const Tag: Model<ITag> = model<ITag>('Tag', tagSchema);

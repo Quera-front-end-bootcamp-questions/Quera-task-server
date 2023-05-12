@@ -3,10 +3,12 @@ import {
   IAuthenticatedCreateRequest,
   IAuthenticatedRequest,
   IAuthenticatedUpdateRequest,
+  addWorkspaceMemberController,
   createWorkspaceController,
   deleteWorkspaceController,
   getAllUserWorkspacesController,
   getWorkspaceByIdController,
+  removeWorkspaceMemberController,
   updateWorkspaceController,
 } from '../../Controller/workspaceController/workspace.Controller';
 import { verifyToken } from '../../Middleware/Authenticate';
@@ -53,6 +55,11 @@ router.patch(
   verifyToken,
   updateWorkspaceController as unknown as AuthenticatedUpdateRequestHandler
 );
+router.put(
+  '/:workspaceId/members/:usernameOrId',
+  verifyToken,
+  addWorkspaceMemberController
+);
 
 
 
@@ -61,6 +68,12 @@ router.delete(
   verifyToken,
   deleteWorkspaceController as unknown as AuthenticatedRequestHandler
 );
+router.delete(
+  '/:workspaceId/members/:usernameOrId',
+  verifyToken,
+  removeWorkspaceMemberController as unknown as AuthenticatedRequestHandler
+);
+
 
 
 

@@ -1,5 +1,6 @@
-import Tag from "../../Models/Tag/Tag";
-import Task from '../../Models/Task/Task'
+import { Tag } from "../../Models/Tag/Tag";
+import { Task } from "../../Models/Task/Task";
+
 const createTag = async (name: string, taskId: string): Promise<any> => {
   const tag = await Tag.create({
     name,

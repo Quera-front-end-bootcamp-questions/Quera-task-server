@@ -1,9 +1,9 @@
 // models/WorkspaceMember.ts
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema, Types, model } from 'mongoose';
 
 export interface IWorkspaceMember extends Document {
-  userId: Schema.Types.ObjectId;
-  workspaceId: Schema.Types.ObjectId;
+  userId: Types.ObjectId;
+  workspaceId: Types.ObjectId;
 }
 
 const workspaceMemberSchema = new Schema<IWorkspaceMember>({

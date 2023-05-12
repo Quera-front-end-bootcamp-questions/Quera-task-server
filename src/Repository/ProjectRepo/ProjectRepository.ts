@@ -1,6 +1,6 @@
-import Project from "../../Models/Project/Project";
 import {Workspace} from "../../Models/Workspace/Workspace";
 import ProjectMember from "../../Models/ProjectMember/ProjectMember";
+import { Project } from "../../Models/Project/Project";
 
 const createProject = async (
   name: string,
@@ -21,7 +21,7 @@ const createProject = async (
 
   if (members && members.length > 0) {
     const projectMembers = members.map((member) => ({
-      user: member,
+      userId: member,
       project: project._id,
     }));
     await ProjectMember.insertMany(projectMembers);

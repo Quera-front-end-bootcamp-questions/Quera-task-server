@@ -1,3 +1,4 @@
+
 import { IWorkspace, Workspace } from '../../Models/Workspace/Workspace';
 import { Schema, Types } from 'mongoose';
 import {
@@ -6,12 +7,11 @@ import {
 } from '../../Models/WorkspaceMember/WorkspaceMember';
 import { ICreateWorkspaceRequestBody } from '../../Controller/workspaceController/workspace.Controller';
 import { Project } from '../../Models/Project/Project';
-import { User } from '../../Models/User/User';
 
 const createWorkspace = async (
   name: string,
   userId: Types.ObjectId,
-  usernames?: string[]
+  members?: Types.ObjectId[]
 ): Promise<IWorkspace> => {
   try {
     const workspace = new Workspace({
@@ -20,25 +20,15 @@ const createWorkspace = async (
     });
 
     const createdWorkspace = await workspace.save();
-    if (usernames && usernames.length > 0) {
-      // Check if all usernames exist in the database
-      const users = await User.find({ username: { $in: usernames } });
-
-      // Map the array of usernames to an array of user ids
-      const userIds: Set<Types.ObjectId> = new Set(
-        users.map((user) => user._id)
-      );
-
+    if (members && members?.length > 0) {
       // Create WorkspaceMember documents for each member
-      const workspaceMembers: IWorkspaceMember[] = Array.from(userIds).map(
-        (userId) => {
-          const workspaceMember = new WorkspaceMember({
-            userId: userId,
-            workspaceId: createdWorkspace._id,
-          });
-          return workspaceMember;
-        }
-      );
+      const workspaceMembers: IWorkspaceMember[] = members.map((member) => {
+        const workspaceMember = new WorkspaceMember({
+          userId: member,
+          workspaceId: createdWorkspace._id,
+        });
+        return workspaceMember;
+      });
 
       // Save WorkspaceMember documents to the database
       const createdWorkspaceMembers = await WorkspaceMember.insertMany(
@@ -104,51 +94,46 @@ const updateWorkspace = async (
   workspaceId: Types.ObjectId,
   updates: Partial<ICreateWorkspaceRequestBody>
 ): Promise<IWorkspace> => {
-  const { members, projects, ...toBeUpdated } = updates;
   const updatedWorkspace = await Workspace.findByIdAndUpdate(
     workspaceId,
-    toBeUpdated,
+    updates,
     {
       new: true,
-      select: '-__v -createdAt -updatedAt',
+      select: '-__v -createdAt -updatedAt'
     }
   );
   if (!updatedWorkspace) {
     throw new Error('workspace not found');
   }
 
-  // if (updates.members) {
-  //   const workspaceMembers: IWorkspaceMember[] = updates.members.map(
-  //     (member) => {
-  //       const workspaceMember = new WorkspaceMember({
-  //         userId: member,
-  //         workspaceId: updatedWorkspace._id,
-  //       });
-  //       return workspaceMember;
-  //     }
-  //   );
+  if (updates.members) {
+    const workspaceMembers: IWorkspaceMember[] = updates.members.map(
+      (member) => {
+        const workspaceMember = new WorkspaceMember({
+          userId: member,
+          workspaceId: updatedWorkspace._id,
+        });
+        return workspaceMember;
+      }
+    );
 
-  //   // Save WorkspaceMember documents to the database
-  //   await WorkspaceMember.deleteMany({ workspaceId: updatedWorkspace._id });
-  //   await WorkspaceMember.insertMany(workspaceMembers);
-  // }
+    // Save WorkspaceMember documents to the database
+    await WorkspaceMember.deleteMany({ workspaceId: updatedWorkspace._id });
+    await WorkspaceMember.insertMany(workspaceMembers);
+  }
 
   return updatedWorkspace;
 };
 
-// const getWorkspacesByProjectId = async (workspaceId: string): Promise<any> => {
-//   const projects = await Project.find({ workspace: workspaceId })
-//     .populate('members')
-//     .populate('boards');
-//   return projects;
-// };
+const getWorkspacesByProjectId = async (workspaceId: string): Promise<any> => {
+  const projects = await Project.find({ workspace: workspaceId })
+    .populate('members')
+    .populate('boards');
+  return projects;
+};
 
-const deleteWorkspace = async (
-  workspaceId: Types.ObjectId
-): Promise<IWorkspace> => {
-  const deletedWorkspace = await Workspace.findByIdAndDelete(
-    workspaceId
-  ).select('-__v -createdAt -_id');
+const deleteWorkspace = async (workspaceId: Types.ObjectId): Promise<IWorkspace> => {
+  const deletedWorkspace = await Workspace.findByIdAndDelete(workspaceId).select('-__v -createdAt -_id');
   if (!deletedWorkspace) {
     throw new Error('Workspace not found');
   }
@@ -160,5 +145,6 @@ export {
   getWorkspaceById,
   deleteWorkspace,
   getAllWorkspacesForUser,
+  getWorkspacesByProjectId,
   updateWorkspace,
 };

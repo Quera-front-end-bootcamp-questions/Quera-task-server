@@ -1,6 +1,7 @@
-import User from "../../Models/User/User";
 
 //create function
+
+import { User } from "../../Models/User/User";
 
 const createUser = async (userData: any) => {
   if (userData !== undefined && userData !== null) {
@@ -10,18 +11,6 @@ const createUser = async (userData: any) => {
   }
 };
 
-const getUserById = async (id: number) => {
-  return User.findOne({ id })
-    .populate([
-      { path: "workspaces" },
-      { path: "workspaceMember" },
-      { path: "taskAssignees" },
-      { path: "comments" },
-      { path: "settings" },
-      { path: "projectMember" },
-    ])
-    .select("-password_hash -__v");
-};
 
 const getAllUsers = async () => {
   return User.find();
@@ -76,7 +65,6 @@ export {
   updatePassword,
   updatePasswordResetToken,
   createUser,
-  getUserById,
   getAllUsers,
   updateUser,
   deleteUser,

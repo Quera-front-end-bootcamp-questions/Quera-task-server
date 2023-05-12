@@ -1,13 +1,17 @@
-const mongoose = require('mongoose');
+import { Schema, model, Types, Document, Model } from 'mongoose';
 
-const commentSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
+export interface IComment extends Document {
+  text: string;
+  createdAt: Date;
+  user: Types.ObjectId;
+  task: Types.ObjectId;
+}
+
+const commentSchema = new Schema<IComment>({
   text: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  task: { type: mongoose.Schema.Types.ObjectId, ref: 'Task', required: true }
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  task: { type: Schema.Types.ObjectId, ref: 'Task', required: true }
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-
-export default Comment;
+export const Comment: Model<IComment> = model<IComment>('Comment', commentSchema);
