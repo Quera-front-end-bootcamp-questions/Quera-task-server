@@ -1,7 +1,7 @@
 import express, { RequestHandler, Response } from 'express';
 
 import { verifyToken } from '../../Middleware/Authenticate';
-import { createBoardController } from '../../Controller/BoardController/Board.Controller';
+import { changeBoardPositionController, createBoardController, deleteBoardController, getAllBoardsController, getBoardTasksController, updateBoardController } from '../../Controller/BoardController/Board.Controller';
 
 type AuthenticatedCreateRequestHandler = RequestHandler<
   any,
@@ -23,18 +23,12 @@ type AuthenticatedRequestHandler = RequestHandler<
 
 const router = express.Router();
 
-// Create a board
-router.post('/create', verifyToken, createBoardController as any);
 
-// Get a board by ID
-// router.get('/:id', verifyToken, getBoardByIdController);
-
-// // Update a board
-// router.patch('/:id', verifyToken, updateBoardController);
-
-// // Delete a board
-// router.delete('/:id', verifyToken, deleteBoardController);
-
-
+router.post('/', verifyToken, createBoardController as any);
+router.get('/:projectId', verifyToken, getAllBoardsController); 
+router.put('/:id', verifyToken, updateBoardController); 
+router.put('/:id/position/:index', verifyToken, changeBoardPositionController); 
+router.get('/:id/tasks', verifyToken, getBoardTasksController); 
+router.delete('/:id', verifyToken, deleteBoardController); 
 
 export default router;

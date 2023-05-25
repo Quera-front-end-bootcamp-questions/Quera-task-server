@@ -4,54 +4,29 @@ import {
   IWorkspaceMember,
   WorkspaceMember,
 } from '../../Models/WorkspaceMember/WorkspaceMember';
-import { ICreateWorkspaceRequestBody } from '../../Controller/workspaceController/workspace.Controller';
+import { ICreateWorkspaceRequestBody, IUpdateWorkspaceRequestBody } from '../../Controller/workspaceController/workspace.Controller';
 import { Project } from '../../Models/Project/Project';
-import { User } from '../../Models/User/User';
+import { IUser, User } from '../../Models/User/User';
+import { log } from 'console';
 
 const createWorkspace = async (
   name: string,
-  userId: Types.ObjectId,
-  usernames?: string[]
-): Promise<IWorkspace> => {
+  userId: Types.ObjectId
+): Promise<Partial<IWorkspace>> => {
   try {
     const workspace = new Workspace({
       name: name,
       user: new Types.ObjectId(userId),
     });
 
-    const createdWorkspace = await workspace.save();
-    if (usernames && usernames.length > 0) {
-      // Check if all usernames exist in the database
-      const users = await User.find({ username: { $in: usernames } });
+    await User.findByIdAndUpdate(userId, {
+      $addToSet: { workspaces: workspace._id },
+    });
 
-      // Map the array of usernames to an array of user ids
-      const userIds: Set<Types.ObjectId> = new Set(
-        users.map((user) => user._id)
-      );
+    const createdWorkspace = (await workspace.save()).toObject();
+    const { __v, createdAt, ...workspaceResData } = createdWorkspace;
 
-      // Create WorkspaceMember documents for each member
-      const workspaceMembers: IWorkspaceMember[] = Array.from(userIds).map(
-        (userId) => {
-          const workspaceMember = new WorkspaceMember({
-            userId: userId,
-            workspaceId: createdWorkspace._id,
-          });
-          return workspaceMember;
-        }
-      );
-
-      // Save WorkspaceMember documents to the database
-      const createdWorkspaceMembers = await WorkspaceMember.insertMany(
-        workspaceMembers
-      );
-
-      // Update the createdWorkspace with the createdWorkspaceMembers
-      createdWorkspace.members = createdWorkspaceMembers.map(
-        (member) => member._id
-      );
-      await createdWorkspace.save();
-    }
-    return createdWorkspace;
+    return workspaceResData;
   } catch (error) {
     console.error('Error creating workspace:', error);
     throw error;
@@ -66,7 +41,15 @@ const getAllWorkspacesForUser = async (
       { user: userId },
       { __v: 0, createdAt: 0 }
     )
-      .populate('members', '-__v -user -workspace')
+      .populate({
+        path: 'members',
+        select: '-__v -workspace -_id',
+        populate: {
+          path: 'user',
+          select:
+            '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments',
+        },
+      })
       .populate('projects', '-__v -workspace')
       .exec();
 
@@ -89,7 +72,15 @@ const getWorkspaceById = async (
         'user',
         '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments'
       )
-      .populate('members', '-__v -workspaceId -_id')
+      .populate({
+        path: 'members',
+        select: '-__v -workspace -_id',
+        populate: {
+          path: 'user',
+          select:
+            '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments',
+        },
+      })
       .populate('projects', '-__v -workspace')
       .exec();
 
@@ -102,38 +93,68 @@ const getWorkspaceById = async (
 
 const updateWorkspace = async (
   workspaceId: Types.ObjectId,
-  updates: Partial<ICreateWorkspaceRequestBody>
+  updates: IUpdateWorkspaceRequestBody,
+  userId: Types.ObjectId
 ): Promise<IWorkspace> => {
-  const { members, projects, ...toBeUpdated } = updates;
-  const updatedWorkspace = await Workspace.findByIdAndUpdate(
-    workspaceId,
-    toBeUpdated,
-    {
-      new: true,
-      select: '-__v -createdAt -updatedAt',
+
+  try {
+    const workspace: IWorkspace | null = await Workspace.findById(workspaceId).select('-__v -createdAt');
+
+    if (!workspace) {
+      throw new Error('Workspace not found');
     }
-  );
-  if (!updatedWorkspace) {
-    throw new Error('workspace not found');
+
+    if (!workspace.user.equals(userId)) {
+      throw new Error('Not authorized to update this workspace');
+    }
+
+    if (updates.usernameOrId) {
+      // Check if the new owner exists
+      let newOwner: IUser | null;
+      if (Types.ObjectId.isValid(updates.usernameOrId) ) {
+        newOwner  =  await User.findById(updates.usernameOrId)
+      } else{
+        newOwner = await User.findOne({username: updates.usernameOrId});
+      }
+        
+      if (!newOwner) {
+        throw new Error('New owner not found');
+      }
+
+      // Update the owner of the workspace
+      workspace.user = newOwner._id;
+
+      // Remove the workspace from the previous owner's workspaces array
+      const previousOwner: IUser | null = await User.findById(workspace.user);
+      if (previousOwner) {
+        previousOwner.workspaces = previousOwner.workspaces.filter(
+          (workspace: Types.ObjectId) => !workspace.equals(workspaceId)
+        );
+        await previousOwner.save();
+      }
+
+      // Add the workspace to the new owner's workspaces array
+      newOwner.workspaces.push(workspace._id);
+      await newOwner.save();
+    }
+
+    // Update other fields of the workspace
+    if (updates.name) {
+      workspace.name = updates.name;
+    }
+    if (updates.image) {
+      workspace.image = updates.image;
+    }
+
+    // Save the updated workspace
+    await workspace.save();
+
+    return workspace;
+  } catch (error) {
+    console.error('Error updating workspace:', error);
+    throw error;
   }
 
-  // if (updates.members) {
-  //   const workspaceMembers: IWorkspaceMember[] = updates.members.map(
-  //     (member) => {
-  //       const workspaceMember = new WorkspaceMember({
-  //         userId: member,
-  //         workspaceId: updatedWorkspace._id,
-  //       });
-  //       return workspaceMember;
-  //     }
-  //   );
-
-  //   // Save WorkspaceMember documents to the database
-  //   await WorkspaceMember.deleteMany({ workspaceId: updatedWorkspace._id });
-  //   await WorkspaceMember.insertMany(workspaceMembers);
-  // }
-
-  return updatedWorkspace;
 };
 
 // const getWorkspacesByProjectId = async (workspaceId: string): Promise<any> => {
@@ -144,15 +165,56 @@ const updateWorkspace = async (
 // };
 
 const deleteWorkspace = async (
-  workspaceId: Types.ObjectId
+  workspaceId: Types.ObjectId,
+  userId: Types.ObjectId
 ): Promise<IWorkspace> => {
-  const deletedWorkspace = await Workspace.findByIdAndDelete(
-    workspaceId
-  ).select('-__v -createdAt -_id');
-  if (!deletedWorkspace) {
-    throw new Error('Workspace not found');
+  try {
+    const workspace: IWorkspace | null = await Workspace.findById(workspaceId);
+
+    if (!workspace) {
+      throw new Error('Workspace not found');
+    }
+
+    if (!workspace.user.equals(userId)) {
+      console.log(!workspace.user, userId);
+      
+      throw new Error('Not authorized to delete this workspace');
+    }
+
+    // Remove the workspace from the user's workspaces array
+    const user: IUser | null = await User.findById(workspace.user);
+    if (user) {
+      user.workspaces = user.workspaces.filter(
+        (workspace: Types.ObjectId) => !workspace.equals(workspaceId)
+      );
+
+      // Find the associated WorkspaceMember documents
+      const workspaceMembers: IWorkspaceMember[] = await WorkspaceMember.find({
+        workspaceId,
+      });
+
+      // Remove the WorkspaceMember references from the user's workspaceMember array
+      user.workspaceMember = user.workspaceMember.filter((workspaceMemberId: Types.ObjectId) => {
+        const found = workspaceMembers.find((workspaceMember) =>
+          workspaceMember._id.equals(workspaceMemberId)
+        );
+        return !found;
+      });
+
+      await user.save();
+    }
+
+    // Delete the workspace and its associated workspace members
+    await Promise.all([
+      Workspace.findByIdAndDelete(workspaceId),
+      WorkspaceMember.deleteMany({ workspaceId }),
+    ]);
+
+    return workspace;
+  } catch (error) {
+    console.error('Error deleting workspace:', error);
+    throw error;
   }
-  return deletedWorkspace;
 };
 
 export {

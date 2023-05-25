@@ -8,11 +8,14 @@ const createBoard = async (
   name: string,
   projectId: Types.ObjectId,
   userId: Types.ObjectId
-): Promise<IBoard> => {
+): Promise< Partial<IBoard>> => {
   try {
+    
     const projectToUpdate = await Project.findById(projectId);
 
-    if (!projectToUpdate || !projectToUpdate.members.includes( userId )) {
+    
+// TODO check user permission
+    if (!projectToUpdate ) {
       throw new Error('Project not found');
     }
     const maxPosition =
@@ -25,7 +28,7 @@ const createBoard = async (
       project: projectId,
       position: maxPosition + 1,
     });
-     const createdBoard = await board.save();
+     let createdBoard = await board.save();
 
     // Update the boards field in the project with the new board and its position
     projectToUpdate.boards.push({
@@ -34,9 +37,9 @@ const createBoard = async (
     });
     await projectToUpdate.save();
 
-   
+  const {__v, ...toBeSendBoardData} =  board.toObject()
 
-    return createdBoard;
+    return toBeSendBoardData;
   } catch (error) {
     console.error('Error creating board:', error);
     throw error;

@@ -1,59 +1,97 @@
-import {Workspace} from "../../Models/Workspace/Workspace";
-import ProjectMember from "../../Models/ProjectMember/ProjectMember";
-import { Project } from "../../Models/Project/Project";
+import { Workspace } from '../../Models/Workspace/Workspace';
+import ProjectMember from '../../Models/ProjectMember/ProjectMember';
+import { Project } from '../../Models/Project/Project';
+import { User } from '../../Models/User/User';
+import { Types } from 'mongoose';
 
 const createProject = async (
   name: string,
   workspaceId: string,
-  members: string[]
+  userId: Types.ObjectId
 ): Promise<any> => {
   const workspace = await Workspace.findById(workspaceId);
 
   if (!workspace) {
-    throw new Error("Workspace not found");
+    throw new Error('Workspace not found');
   }
 
-  // TODO potential bug here
   const project = await Project.create({
     name,
     workspace: workspaceId,
   });
 
-  if (members && members.length > 0) {
-    const projectMembers = members.map((member) => ({
-      userId: member,
-      project: project._id,
-    }));
-    await ProjectMember.insertMany(projectMembers);
-  }
+  const owner = await User.findById(userId);
 
-  return project;
+  if (owner) {
+    const projectMember = await ProjectMember.create({
+      user: userId,
+      project: project._id,
+      role: 'owner',
+    });
+    workspace.projects.push(project._id);
+    workspace.updateOne({$addToSet:{projects: project._id}})
+
+    owner?.projectMember.push(projectMember._id);
+    owner?.save();
+
+    project.members.push(projectMember._id);
+    project.save();
+
+    const resData = project.toObject();
+    delete resData.__v
+    
+    return resData;
+  }
+ throw Error('owner not found')
+  
 };
 
 const getProjectById = async (id: string): Promise<any> => {
-  const project = await Project.findById(id);
+  const project = await Project.findById(id).select('-__v').populate({
+    path: 'members',
+    select: '-__v -project -_id',
+    populate: {
+      path: 'user',
+      select:
+        '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments',
+    },
+  });
   return project;
 };
 
 const getProjectsByWorkspaceId = async (workspaceId: string): Promise<any> => {
-  const projects = await Project.find({ workspace: workspaceId })
-    .populate("members")
-    .populate("boards");
+  const projects = await Project.find({ workspace: workspaceId }).select('-__v')
+    .populate({
+      path: 'members',
+      select: '-__v -project -_id',
+      populate: {
+        path: 'user',
+        select:
+          '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments',
+      },
+    })
+    .populate('boards');
+    console.log(projects, workspaceId);
+    // TODO populate board
   return projects;
 };
 
 const deleteProject = async (id: string): Promise<any> => {
   const project = await Project.findByIdAndDelete(id);
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error('Project not found');
   }
   return project;
 };
 const updateProject = async (id: string, updates: any): Promise<any> => {
-  const project = await Project.findByIdAndUpdate(id, updates, { new: true });
+  let project = await Project.findByIdAndUpdate(id, updates, { new: true });
   if (!project) {
-    throw new Error("Project not found");
+    throw new Error('Project not found');
   }
+  
+  project = project.toObject();
+  delete project.__v;
+
   return project;
 };
 
