@@ -1,12 +1,13 @@
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema, Types, model } from 'mongoose';
+import { ITask } from '../Task/Task';
 
-interface ITaskPosition {
-  task: Schema.Types.ObjectId;
+export interface ITaskPosition extends Document {
+  task: Types.ObjectId | ITask;
   position: number;
 }
 export interface IBoard extends Document {
   name: string;
-  project: Schema.Types.ObjectId;
+  project: Types.ObjectId;
   position: number;
   tasks: ITaskPosition[];
 }

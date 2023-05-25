@@ -1,13 +1,13 @@
 // models/Workspace.ts
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema, Types, model } from 'mongoose';
 
 export interface IWorkspace extends Document {
   name: string;
   createdAt: Date;
   image?: string;
   user: any;
-  members: Schema.Types.ObjectId[];
-  projects: Schema.Types.ObjectId[];
+  members: Types.ObjectId[];
+  projects: Types.ObjectId[];
 }
 
 const workspaceSchema = new Schema<IWorkspace>({

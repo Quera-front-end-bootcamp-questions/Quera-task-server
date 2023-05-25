@@ -10,6 +10,7 @@ import authRouter from '../Routes/Auth/Auth.Route';
 import workspaceRouter from '../Routes/workspace/workspace.Route';
 import commentRouter from '../Routes/Comment/Comment.Route';
 import boardRouter from '../Routes/Board/Board.Route';
+import taskRouter from '../Routes/Task/Task.Route';
 
 require('dotenv').config();
 
@@ -29,6 +30,7 @@ app.use('/api/projects', projectRouter);
 app.use('/api/workspace', workspaceRouter);
 app.use('/api/comment', commentRouter);
 app.use('/api/board', boardRouter);
+app.use('/api/task', taskRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');

@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { Document, Model, Schema, model } from 'mongoose';
 
-interface IBoardPosition {
+export interface IBoardPosition {
   board: Schema.Types.ObjectId;
   position: number;
 }
