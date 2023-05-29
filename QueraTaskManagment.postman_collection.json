@@ -1,0 +1,2570 @@
+{
+	"info": {
+		"_postman_id": "36ecfd52-cee9-4693-b4eb-de1f856cedca",
+		"name": "QueraTaskManagment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "updateUserById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"email\": \"john.doe@example.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/users/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"email\": \"john.doe@example.com\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/users/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "646348fc14ffcda768ce5c4d"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User updated successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"646348fc14ffcda768ce5c4d\",\r\n        \"username\": \"sina\",\r\n        \"firstname\": \"John1\",\r\n        \"lastname\": \"Doe1\",\r\n        \"email\": \"john.doe@example.com\",\r\n        \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n        \"phone\": \"+1-555-555-5555\",\r\n        \"workspaces\": [\r\n            \"64637c8814ffcda768ce5c55\",\r\n            \"646380a714ffcda768ce5c6d\",\r\n            \"646380ac14ffcda768ce5c70\"\r\n        ],\r\n        \"workspaceMember\": [],\r\n        \"taskAssignees\": [\r\n            \"6470931cabd53b131c709958\"\r\n        ],\r\n        \"comments\": [],\r\n        \"settings\": [],\r\n        \"projectMember\": [\r\n            \"6467f0630e408c9b0dfa2533\",\r\n            \"6467f3710e408c9b0dfa2539\",\r\n            \"6467f3780e408c9b0dfa253f\",\r\n            \"6467f4210e408c9b0dfa2545\",\r\n            \"6467f4240e408c9b0dfa254b\",\r\n            \"6467f4260e408c9b0dfa2551\",\r\n            \"6467f5aa777741f231552977\",\r\n            \"6467f5f3e22ff6599c61505c\",\r\n            \"6467f7d5f23358c63dbf7b37\",\r\n            \"6467f7d6f23358c63dbf7b3d\",\r\n            \"6467f7d7f23358c63dbf7b43\",\r\n            \"6467fe461197f2815727c065\",\r\n            \"6467fe491197f2815727c06c\",\r\n            \"6467fe4a1197f2815727c073\",\r\n            \"6467ffed4dde6d2a345702c1\"\r\n        ],\r\n        \"__v\": 27\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "get user by username or id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/users/:usernameOrId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"users",
+										":usernameOrId"
+									],
+									"variable": [
+										{
+											"key": "usernameOrId",
+											"value": "sina"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User retrieved successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"646348fc14ffcda768ce5c4d\",\r\n        \"username\": \"sina\",\r\n        \"firstname\": \"John1\",\r\n        \"lastname\": \"Doe1\",\r\n        \"email\": \"john.doe@example.com\",\r\n        \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n        \"phone\": \"+1-555-555-5555\",\r\n        \"workspaces\": [\r\n            \"64637c8814ffcda768ce5c55\",\r\n            \"646380a714ffcda768ce5c6d\",\r\n            \"646380ac14ffcda768ce5c70\"\r\n        ],\r\n        \"workspaceMember\": [],\r\n        \"taskAssignees\": [\r\n            \"6470931cabd53b131c709958\"\r\n        ],\r\n        \"comments\": [],\r\n        \"projectMember\": [\r\n            \"6467f0630e408c9b0dfa2533\",\r\n            \"6467f3710e408c9b0dfa2539\",\r\n            \"6467f3780e408c9b0dfa253f\",\r\n            \"6467f4210e408c9b0dfa2545\",\r\n            \"6467f4240e408c9b0dfa254b\",\r\n            \"6467f4260e408c9b0dfa2551\",\r\n            \"6467f5aa777741f231552977\",\r\n            \"6467f5f3e22ff6599c61505c\",\r\n            \"6467f7d5f23358c63dbf7b37\",\r\n            \"6467f7d6f23358c63dbf7b3d\",\r\n            \"6467f7d7f23358c63dbf7b43\",\r\n            \"6467fe461197f2815727c065\",\r\n            \"6467fe491197f2815727c06c\",\r\n            \"6467fe4a1197f2815727c073\",\r\n            \"6467ffed4dde6d2a345702c1\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"sina2\",\r\n  \"email\": \"sina.nili0972@gmail.com\",\r\n  \"password\": \"password123\",\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n  \"phone\": \"+1-555-555-5555\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/register",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"sina2\",\r\n  \"email\": \"sina.nili0972@gmail.com\",\r\n  \"password\": \"password123\",\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n  \"phone\": \"+1-555-555-5555\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/auth/register",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Email address is already in use\",\r\n    \"code\": 409,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						},
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"sina2\",\r\n  \"email\": \"sina.nili0972@gmail.com\",\r\n  \"password\": \"password123\",\r\n  \"firstname\": \"John\",\r\n  \"lastname\": \"Doe\",\r\n  \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n  \"phone\": \"+1-555-555-5555\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/auth/register",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User registered successfully\",\r\n    \"code\": 201,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"username\": \"sina7\",\r\n        \"firstname\": \"John\",\r\n        \"lastname\": \"Doe\",\r\n        \"email\": \"sina.nili0977@gmail.com\",\r\n        \"profile_url\": \"https://example.com/john_doe/profile.jpg\",\r\n        \"phone\": \"+1-555-555-5555\",\r\n        \"workspaces\": [],\r\n        \"workspaceMember\": [],\r\n        \"taskAssignees\": [],\r\n        \"comments\": [],\r\n        \"settings\": [],\r\n        \"projectMember\": [],\r\n        \"_id\": \"647369dcdb1049e0257bf715\"\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"emailOrUsername\": \"salar.nili097@gmail.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"emailOrUsername\": \"salar.nili097@gmail.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/auth/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"emailOrUsername\": \"salar.nili097@gmail.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/auth/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "reset-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"token\": \"abeecc775eb7bdce080cccac07e19351c276a199\", // replace with a valid password reset token\r\n    \"password\": \"password123\" // replace with your desired new password\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/reset-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forget-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"salar.nili097@gmail.com\" // replace with a valid email address\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/forget-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"forget-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshtoken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JiY2E5MWNlZDFkYmZkNDRhM2RkOCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODE2MzcwNzB9.vys-0Syk5Eq4KywH8fMSNyM49cW6P3BiY-bZ3hivR3g\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/auth/refreshtoken",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"auth",
+								"refreshtoken"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JiY2E5MWNlZDFkYmZkNDRhM2RkOCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODE2MzcwNzB9.vys-0Syk5Eq4KywH8fMSNyM49cW6P3BiY-bZ3hivR3g\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/auth/refreshtoken",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"auth",
+										"refreshtoken"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "get tag by tag name or id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/tags/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tags",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/tags/:tagOrTagname",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":tagOrTagname"
+									],
+									"variable": [
+										{
+											"key": "tagOrTagname",
+											"value": "My Tag2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag data retrieved successfully.\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"647444a1a50e68b62db7f8ba\",\r\n        \"name\": \"My Tag2\",\r\n        \"color\": \"#FF0000\",\r\n        \"tasks\": [\r\n            {\r\n                \"_id\": \"646f43326b7c80ef1bf73cb7\",\r\n                \"name\": \"task name 2\",\r\n                \"description\": \"description description description\"\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/tags/:tagOrTagname",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":tagOrTagname"
+									],
+									"variable": [
+										{
+											"key": "tagOrTagname",
+											"value": "My Tag3"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag not found\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "createTag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Tag2\",\r\n    \"taskId\": \"646f43326b7c80ef1bf73cb7\",\r\n    \"color\": \"#FF0000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/tags",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tags"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Tag\",\r\n    \"color\": \"#FF0000\",\r\n    \"taskId\": \"6143b8f1cc4a4a4a1324e7d8\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag created and associated successfully\",\r\n    \"code\": 201,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"tag\": {\r\n            \"_id\": \"647444a1a50e68b62db7f8ba\",\r\n            \"name\": \"My Tag2\",\r\n            \"color\": \"#FF0000\"\r\n        },\r\n        \"tasks\": [\r\n            {\r\n                \"_id\": \"646f43326b7c80ef1bf73cb7\",\r\n                \"name\": \"task name 2\",\r\n                \"description\": \"description description description\"\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "already taged",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Tag\",\r\n    \"color\": \"#FF0000\",\r\n    \"taskId\": \"6143b8f1cc4a4a4a1324e7d8\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag created and associated successfully\",\r\n    \"code\": 201,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"tag\": {\r\n            \"_id\": \"647444a1a50e68b62db7f8ba\",\r\n            \"name\": \"My Tag2\",\r\n            \"color\": \"#FF0000\"\r\n        },\r\n        \"tasks\": [\r\n            {\r\n                \"_id\": \"646f43326b7c80ef1bf73cb7\",\r\n                \"name\": \"task name 2\",\r\n                \"description\": \"description description description\"\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Tag2\",\r\n    \"taskId\": \"wrongTaskId\",\r\n    \"color\": \"#FF0000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"An error occurred while creating the tag\",\r\n    \"code\": 500,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "untag task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Tag2\",\r\n    \"taskId\": \"646f43326b7c80ef1bf73cb7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/tags/untag",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tags",
+								"untag"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Tag2\",\r\n    \"taskId\": \"646f43326b7c80ef1bf73cb7\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags/untag",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										"untag"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "faild",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Tag2\",\r\n    \"taskId\": \"646f43326b7c80ef1bf73cb7\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags/untag",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										"untag"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "rename Tag By Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My Updated Tag\",\r\n    \"color\": \"#0000FF\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/tags/:id/tags/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tags",
+								":id",
+								"tags",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Updated Tag\",\r\n    \"color\": \"#0000FF\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags/:id/tags/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":id",
+										"tags",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"My Updated Tag\",\r\n    \"color\": \"#0000FF\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/tags/:id/tags/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":id",
+										"tags",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": null
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "deleteTagById",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/tags/:tagIdOrName",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tags",
+								":tagIdOrName"
+							],
+							"variable": [
+								{
+									"key": "tagIdOrName",
+									"value": "64731fed31033b6bb0c3bf8e"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/tags/:tagIdOrName",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":tagIdOrName"
+									],
+									"variable": [
+										{
+											"key": "tagIdOrName",
+											"value": "6474747fa50e68b62db7f8d8"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag and associated TaskTags deleted successfully\"\r\n}"
+						},
+						{
+							"name": "not found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/tags/:tagIdOrName",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										":tagIdOrName"
+									],
+									"variable": [
+										{
+											"key": "tagIdOrName",
+											"value": "6474747fa50e68b62db7f8d8"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Tag not found\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "get tags of task by taskId",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/tags/task/:taskId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"tags",
+										"task",
+										":taskId"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "646f432f6b7c80ef1bf73cb1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"tag of required task fetched successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"646f432f6b7c80ef1bf73cb1\",\r\n        \"name\": \"task name 1\",\r\n        \"description\": \"description description description\",\r\n        \"tags\": [\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714b3f552a46376a70f9d4\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714bb5a77993c23b67aac0\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714bdda77993c23b67aac8\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714bfcd4443508b779981a\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714cac6a9a9d8dc02fb663\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714cf063618b5ebbc0e32b\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714d79ced8c8ee8e5a44ff\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714d8a43d73ceafb45ff06\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714ddfbfdb122d2b9128d0\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714defe278d38b14db8984\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64714e7908be2439240b52d9\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728340c3040fc39fd78071\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728c10c3040fc39fd7807b\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728c99b7bfa67154ee6ca7\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728cf82115a9cbd7966649\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728dcfb8021eba53f06da2\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64728e2f1c91c0ca768831ae\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647292dc0d67a3c91dac84d6\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647294107817f12f8adb2739\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64729448f30293e873c9e62b\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647294ed6f7dc8413aebac4e\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647295634bb60c923eb5b531\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647295a23423d59eb200430e\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472f9f41f538243edc8ceed\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fa77d5433a40f35a6fe2\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fad31b01e62eca986d14\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fb085304a1c2b9158cb3\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fb261dd78837403663f4\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fb4a1a8852df7540dfc6\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fb7919af8e52b0b86f5a\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fb988773ea7e64c5cb2a\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fbad245ec9707b247342\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6472fbdc3afdc0cd7b4f4647\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647310f6b3687ae83db8630c\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647310fbb3687ae83db86314\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64731651f44dfa1aebdf8fbf\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647316a2a8cef890fc76a5d4\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647316af33381170a48786b5\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647316e8d4445ecc743e7f23\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6473172a07921df808d3fd03\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6473172d07921df808d3fd0b\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6473174bd46a7f0275bbdff8\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6473174cd46a7f0275bbe000\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647317c0e81880493f3379ce\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"647317d0eaa15422271d9db9\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"6473182650921168fbee19ec\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64731831231da17aee1e6ebf\",\r\n                \"color\": \"#0000FF\"\r\n            },\r\n            {\r\n                \"tagName\": \"My Tag\",\r\n                \"_id\": \"64731936f91fc7afaa253721\",\r\n                \"color\": \"#0000FF\"\r\n            }\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "createProject",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Project Name3\",\r\n    \"workspaceId\": \"6463828414ffcda768ce5c76\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Project Name\",\r\n    \"workspaceId\": \"workspaceId\",\r\n    \"members\": [\r\n        \"memberId1\",\r\n        \"memberId2\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/createproject",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"createproject"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Project Name3\",\r\n    \"workspaceId\": \"wrongWorkspaceId\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/projects",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Server error\",\r\n    \"code\": 500,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "getProjectById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/projects/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64672d940b5b0b03bec4eca6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/projects/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "64672d940b5b0b03bec4eca6"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "    \"message\": \"Project retrieved successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"64672d940b5b0b03bec4eca6\",\r\n        \"name\": \"New Project Name2\",\r\n        \"workspace\": \"6463828414ffcda768ce5c76\",\r\n        \"members\": [\r\n            {\r\n                \"user\": {\r\n                    \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                    \"username\": \"john\",\r\n                    \"firstname\": \"John\",\r\n                    \"lastname\": \"Doe\",\r\n                    \"email\": \"salar.nili097@gmail.com\",\r\n                    \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                },\r\n                \"role\": \"owner\"\r\n            }\r\n        ],\r\n        \"boards\": []\r\n    }\r\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/projects/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "wrongProjectId"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Server error\",\r\n    \"code\": 500,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "getProjectsByWorkspaceId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/projects/workspaces/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								"workspaces",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "wrongWorkspaceId"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/projects/workspaces/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										"workspaces",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6463828414ffcda768ce5c76"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Projects retrieved successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": [\r\n        {\r\n            \"_id\": \"6463ea2014ffcda768ce5cb5\",\r\n            \"name\": \"Project Name\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6463fc7514ffcda768ce5cb9\",\r\n            \"name\": \"Project Name\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [],\r\n            \"boards\": [\r\n                {\r\n                    \"board\": \"646d2feb42ac0dafec913394\",\r\n                    \"position\": 2,\r\n                    \"_id\": \"646f3268ac151bc49dcbb652\"\r\n                },\r\n                {\r\n                    \"board\": \"646e905e35066827eebc6c79\",\r\n                    \"position\": 3,\r\n                    \"_id\": \"646f3268ac151bc49dcbb653\"\r\n                },\r\n                {\r\n                    \"board\": \"646f1a337cf500a378bed38d\",\r\n                    \"position\": 4,\r\n                    \"_id\": \"646f3268ac151bc49dcbb654\"\r\n                },\r\n                {\r\n                    \"board\": \"646f1a367cf500a378bed395\",\r\n                    \"position\": 5,\r\n                    \"_id\": \"646f3268ac151bc49dcbb655\"\r\n                },\r\n                {\r\n                    \"board\": \"646f1a397cf500a378bed39e\",\r\n                    \"position\": 7,\r\n                    \"_id\": \"646f1a6b7cf500a378bed3c4\"\r\n                },\r\n                {\r\n                    \"board\": \"646f1a3d7cf500a378bed3a8\",\r\n                    \"position\": 6,\r\n                    \"_id\": \"646f3268ac151bc49dcbb656\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"_id\": \"646422abe721a8afba1cbacb\",\r\n            \"name\": \"Project Name\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464233d8db5bb17a209ecc0\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"646426ac6cddaf93883660ea\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464271a87a2f7c332af53c1\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464271b87a2f7c332af53c9\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"646427342a85a8098d70f4ee\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"646427342a85a8098d70f4f7\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"646427352a85a8098d70f500\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464281a385d8657ff5e6334\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464281b385d8657ff5e633c\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464281c385d8657ff5e6344\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"6464281d385d8657ff5e634c\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"64642a2be94922d8236d6635\",\r\n            \"name\": \"Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"64672d940b5b0b03bec4eca6\",\r\n            \"name\": \"New Project Name2\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        },\r\n        {\r\n            \"_id\": \"647474daa50e68b62db7f8e9\",\r\n            \"name\": \"Project Name3\",\r\n            \"workspace\": \"6463828414ffcda768ce5c76\",\r\n            \"members\": [\r\n                {\r\n                    \"user\": {\r\n                        \"_id\": \"646348dd14ffcda768ce5c48\",\r\n                        \"username\": \"john\",\r\n                        \"firstname\": \"John\",\r\n                        \"lastname\": \"Doe\",\r\n                        \"email\": \"salar.nili097@gmail.com\",\r\n                        \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n                    },\r\n                    \"role\": \"owner\"\r\n                }\r\n            ],\r\n            \"boards\": []\r\n        }\r\n    ]\r\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/projects/workspaces/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										"workspaces",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "wrongWorkspaceId"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Server error\",\r\n    \"code\": 500,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "updateProjectController",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"New Project Name2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/projects/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6464233d8db5bb17a209ecc0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"New Project Name2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/projects/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6464233d8db5bb17a209ecc0"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Project updated successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"6464233d8db5bb17a209ecc0\",\r\n        \"name\": \"New Project Name2\",\r\n        \"workspace\": \"6463828414ffcda768ce5c76\",\r\n        \"members\": [\r\n            \"6464233d8db5bb17a209ecc3\"\r\n        ],\r\n        \"boards\": []\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "deleteProject",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/projects/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "646426ac6cddaf93883660ea"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/project/deleteproject/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"project",
+										"deleteproject",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "646426ac6cddaf93883660ea"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Project deleted successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"646426ac6cddaf93883660ea\",\r\n        \"name\": \"Project Name2\",\r\n        \"workspace\": \"6463828414ffcda768ce5c76\",\r\n        \"members\": [\r\n            \"646426ac6cddaf93883660ed\"\r\n        ],\r\n        \"boards\": [],\r\n        \"__v\": 1\r\n    }\r\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/projects/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "wrongProjectId"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Server error\",\r\n    \"code\": 500,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				},
+				{
+					"name": "add member to project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"members",
+								":usernameOrId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "6463ea2014ffcda768ce5cb5"
+								},
+								{
+									"key": "usernameOrId",
+									"value": "sina2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "duplicated add request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"members",
+										":usernameOrId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "6463ea2014ffcda768ce5cb5"
+										},
+										{
+											"key": "usernameOrId",
+											"value": "sina"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User is already a member of the project\",\r\n    \"code\": 400,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						},
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"members",
+										":usernameOrId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "6463ea2014ffcda768ce5cb5"
+										},
+										{
+											"key": "usernameOrId",
+											"value": "sina2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User has been added to the project\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"projectId\": \"6463ea2014ffcda768ce5cb5\",\r\n        \"userId\": \"64736287ba7dd7ba449686ef\"\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "remove member from project",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"projects",
+								":projectId",
+								"members",
+								":usernameOrId"
+							],
+							"variable": [
+								{
+									"key": "projectId",
+									"value": "6463ea2014ffcda768ce5cb5"
+								},
+								{
+									"key": "usernameOrId",
+									"value": "sina"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"members",
+										":usernameOrId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "6463ea2014ffcda768ce5cb5"
+										},
+										{
+											"key": "usernameOrId",
+											"value": "sina"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User has been removed from the project\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"projectId\": \"6463ea2014ffcda768ce5cb5\",\r\n        \"username\": \"sina\",\r\n        \"userId\": \"646348fc14ffcda768ce5c4d\"\r\n    }\r\n}"
+						},
+						{
+							"name": "user is not member of project",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/projects/:projectId/members/:usernameOrId",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"projects",
+										":projectId",
+										"members",
+										":usernameOrId"
+									],
+									"variable": [
+										{
+											"key": "projectId",
+											"value": "6463ea2014ffcda768ce5cb5"
+										},
+										{
+											"key": "usernameOrId",
+											"value": "sina"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"User is not a member of this project\",\r\n    \"code\": 404,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "workspace",
+			"item": [
+				{
+					"name": "create workspace",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"testWorkspace9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/workspace/create",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"testWorkspace\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/workspace/create",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"workspace",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "get all workspases",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/workspace/get-all",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/workspace/get-all",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"workspace",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Workspaces fetched successfully\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": [\r\n        {\r\n            \"_id\": \"6463828414ffcda768ce5c76\",\r\n            \"name\": \"testWorkspace6\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": [\r\n                {\r\n                    \"_id\": \"646427342a85a8098d70f4ee\",\r\n                    \"name\": \"Project Name2\",\r\n                    \"members\": [\r\n                        \"646427342a85a8098d70f4f1\"\r\n                    ],\r\n                    \"boards\": []\r\n                },\r\n                {\r\n                    \"_id\": \"646427342a85a8098d70f4f7\",\r\n                    \"name\": \"Project Name2\",\r\n                    \"members\": [\r\n                        \"646427342a85a8098d70f4fa\"\r\n                    ],\r\n                    \"boards\": []\r\n                },\r\n                {\r\n                    \"_id\": \"646427352a85a8098d70f500\",\r\n                    \"name\": \"Project Name2\",\r\n                    \"members\": [\r\n                        \"646427352a85a8098d70f503\"\r\n                    ],\r\n                    \"boards\": []\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"_id\": \"6463836014ffcda768ce5c8b\",\r\n            \"name\": \"testWorkspace7\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": []\r\n        },\r\n        {\r\n            \"_id\": \"6463836414ffcda768ce5c8e\",\r\n            \"name\": \"testWorkspace8\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": []\r\n        },\r\n        {\r\n            \"_id\": \"6474b4801f213658155a5cfc\",\r\n            \"name\": \"testWorkspace9\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": []\r\n        },\r\n        {\r\n            \"_id\": \"6474b4eb1f213658155a5cff\",\r\n            \"name\": \"testWorkspace9\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": []\r\n        },\r\n        {\r\n            \"_id\": \"6474b4ed1f213658155a5d02\",\r\n            \"name\": \"testWorkspace9\",\r\n            \"user\": \"646348dd14ffcda768ce5c48\",\r\n            \"members\": [],\r\n            \"projects\": []\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "get workspce by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/workspace/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6447279a264a0e83ce5f8b81"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "not authorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/workspace/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"workspace",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6447279a264a0e83ce5f8b81"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-auth-token",
+										"value": "{{jwtToken}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{baseurl}}/workspace/:id",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"workspace",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6447279a264a0e83ce5f8b81"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Workspace found\",\r\n    \"code\": 200,\r\n    \"error\": false,\r\n    \"data\": {\r\n        \"_id\": \"6463828414ffcda768ce5c76\",\r\n        \"name\": \"testWorkspace6\",\r\n        \"user\": {\r\n            \"_id\": \"646348dd14ffcda768ce5c48\",\r\n            \"username\": \"john\",\r\n            \"firstname\": \"John\",\r\n            \"lastname\": \"Doe\",\r\n            \"email\": \"salar.nili097@gmail.com\",\r\n            \"profile_url\": \"https://example.com/john_doe/profile.jpg\"\r\n        },\r\n        \"members\": [],\r\n        \"projects\": [\r\n            {\r\n                \"_id\": \"646427342a85a8098d70f4ee\",\r\n                \"name\": \"Project Name2\",\r\n                \"members\": [\r\n                    \"646427342a85a8098d70f4f1\"\r\n                ],\r\n                \"boards\": []\r\n            },\r\n            {\r\n                \"_id\": \"646427342a85a8098d70f4f7\",\r\n                \"name\": \"Project Name2\",\r\n                \"members\": [\r\n                    \"646427342a85a8098d70f4fa\"\r\n                ],\r\n                \"boards\": []\r\n            },\r\n            {\r\n                \"_id\": \"646427352a85a8098d70f500\",\r\n                \"name\": \"Project Name2\",\r\n                \"members\": [\r\n                    \"646427352a85a8098d70f503\"\r\n                ],\r\n                \"boards\": []\r\n            }\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "update workspace",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"updatedWorkspace56\",\r\n    \"usernameOrId\": \"sina\",\r\n    \"image\": \"image url\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/workspace/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "645e52b5de0de4de7e063535"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete workspace",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/workspace/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6448078c0562908b22d80476"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add workspace member",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/workspace/:workspaceId/members/:memberId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								":workspaceId",
+								"members",
+								":memberId"
+							],
+							"variable": [
+								{
+									"key": "workspaceId",
+									"value": ""
+								},
+								{
+									"key": "memberId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove workspace member",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/workspace/:workspaceId/members/:usernameOrId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"workspace",
+								":workspaceId",
+								"members",
+								":usernameOrId"
+							],
+							"variable": [
+								{
+									"key": "workspaceId",
+									"value": "6447279a264a0e83ce5f8b81"
+								},
+								{
+									"key": "usernameOrId",
+									"value": "sina"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "Get comment by task Id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "create new comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"some random text\",\r\n    \"taskId\": \"646f432f6b7c80ef1bf73cb1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/comments/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comment by commentId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/comments/:commentId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "6470dcb7927506535ef8f0b1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete comment by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/comments/:commentId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comments",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "6470dd8b6edaa57aee6626a8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit comment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"updated random text\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/comments/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6470e3f489d52e9c5a4918d5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "create board",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"to do\",\r\n    \"projectId\": \"6463fc7514ffcda768ce5cb9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/board/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"board",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all project boards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/board/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"board",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rename board",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change board postion",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/board/:id/position/:index",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"board",
+								":id",
+								"position",
+								":index"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64682eb4461e944f3ba2fef8"
+								},
+								{
+									"key": "index",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get board's tasks",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "delete board by id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/board/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"board",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "64680c8dcd85e4546f3ad72d"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "creat task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"task name 1\",\r\n    \"description\": \"description description description\",\r\n    \"boardId\": \"64680c8dcd85e4546f3ad72d\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/task/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/task/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change Task Postion",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/task/:id/position/:index",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":id",
+								"position",
+								":index"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "646e9310b8d455e972ffbc53"
+								},
+								{
+									"key": "index",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update task info",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"new name\",\r\n    \"description\": \"new description\",\r\n    \"deadline\": \"2023-05-16T12:52:24.483+00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/task/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change task's board",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/task/:id/board/:boardid",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":id",
+								"board",
+								":boardid"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								},
+								{
+									"key": "boardid",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assigne task to user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/task/:taskId/assign/:userId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":taskId",
+								"assign",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": ""
+								},
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unassigne task from user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "{{jwtToken}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseurl}}/task/:taskId/assign/:usernameOrId",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"task",
+								":taskId",
+								"assign",
+								":usernameOrId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": "646f432f6b7c80ef1bf73cb1"
+								},
+								{
+									"key": "usernameOrId",
+									"value": "john"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "jwtToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjM0OGRkMTRmZmNkYTc2OGNlNWM0OCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODUzNzEzMzYsImV4cCI6MTY4NTQ1NzczNn0.qfMYfrcDNYywZEeWmWRD-zHjjHzokupHRtsctYRm5ac",
+			"type": "default"
+		}
+	]
+}
