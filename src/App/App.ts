@@ -28,7 +28,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/tags', tagRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/workspace', workspaceRouter);
-app.use('/api/comment', commentRouter);
+app.use('/api/comments', commentRouter);
 app.use('/api/board', boardRouter);
 app.use('/api/task', taskRouter);
 
