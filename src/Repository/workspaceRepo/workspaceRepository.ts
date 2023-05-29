@@ -4,7 +4,10 @@ import {
   IWorkspaceMember,
   WorkspaceMember,
 } from '../../Models/WorkspaceMember/WorkspaceMember';
-import { ICreateWorkspaceRequestBody, IUpdateWorkspaceRequestBody } from '../../Controller/workspaceController/workspace.Controller';
+import {
+  ICreateWorkspaceRequestBody,
+  IUpdateWorkspaceRequestBody,
+} from '../../Controller/workspaceController/workspace.Controller';
 import { Project } from '../../Models/Project/Project';
 import { IUser, User } from '../../Models/User/User';
 import { log } from 'console';
@@ -96,9 +99,10 @@ const updateWorkspace = async (
   updates: IUpdateWorkspaceRequestBody,
   userId: Types.ObjectId
 ): Promise<IWorkspace> => {
-
   try {
-    const workspace: IWorkspace | null = await Workspace.findById(workspaceId).select('-__v -createdAt');
+    const workspace: IWorkspace | null = await Workspace.findById(
+      workspaceId
+    ).select('-__v -createdAt');
 
     if (!workspace) {
       throw new Error('Workspace not found');
@@ -111,12 +115,12 @@ const updateWorkspace = async (
     if (updates.usernameOrId) {
       // Check if the new owner exists
       let newOwner: IUser | null;
-      if (Types.ObjectId.isValid(updates.usernameOrId) ) {
-        newOwner  =  await User.findById(updates.usernameOrId)
-      } else{
-        newOwner = await User.findOne({username: updates.usernameOrId});
+      if (Types.ObjectId.isValid(updates.usernameOrId)) {
+        newOwner = await User.findById(updates.usernameOrId);
+      } else {
+        newOwner = await User.findOne({ username: updates.usernameOrId });
       }
-        
+
       if (!newOwner) {
         throw new Error('New owner not found');
       }
@@ -154,7 +158,6 @@ const updateWorkspace = async (
     console.error('Error updating workspace:', error);
     throw error;
   }
-
 };
 
 // const getWorkspacesByProjectId = async (workspaceId: string): Promise<any> => {
@@ -177,7 +180,7 @@ const deleteWorkspace = async (
 
     if (!workspace.user.equals(userId)) {
       console.log(!workspace.user, userId);
-      
+
       throw new Error('Not authorized to delete this workspace');
     }
 
@@ -194,12 +197,14 @@ const deleteWorkspace = async (
       });
 
       // Remove the WorkspaceMember references from the user's workspaceMember array
-      user.workspaceMember = user.workspaceMember.filter((workspaceMemberId: Types.ObjectId) => {
-        const found = workspaceMembers.find((workspaceMember) =>
-          workspaceMember._id.equals(workspaceMemberId)
-        );
-        return !found;
-      });
+      user.workspaceMember = user.workspaceMember.filter(
+        (workspaceMemberId: Types.ObjectId) => {
+          const found = workspaceMembers.find((workspaceMember) =>
+            workspaceMember._id.equals(workspaceMemberId)
+          );
+          return !found;
+        }
+      );
 
       await user.save();
     }
