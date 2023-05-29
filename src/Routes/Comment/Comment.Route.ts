@@ -6,13 +6,14 @@ import {
   updateCommentController,
   deleteCommentController
 } from "../../Controller/CommentController/Comment.Controller";
+import { verifyToken } from "../../Middleware/Authenticate";
 
 const router = express.Router();
 
-router.get("/tasks/:taskId/comments", getCommentsByTaskIdController);
-router.post("/comments", createCommentController);
-router.get("/comments/:id", getCommentByIdController);
-router.patch("/comments/:id", updateCommentController);
-router.delete("/comments/:id", deleteCommentController);
+router.get("/task/:taskId", verifyToken ,  getCommentsByTaskIdController);
+router.post("/", verifyToken , createCommentController);
+router.get("/:id", verifyToken , getCommentByIdController);
+router.patch("/:id", verifyToken , updateCommentController);
+router.delete("/:id", verifyToken , deleteCommentController);
 
 export default router;

@@ -29,8 +29,6 @@ type AuthenticatedRequestHandler = RequestHandler<
   IAuthenticatedRequest
 >;
 
-
-
 const router = express.Router();
 
 router.post(
@@ -61,8 +59,6 @@ router.put(
   addWorkspaceMemberController
 );
 
-
-
 router.delete(
   '/:id',
   verifyToken,
@@ -73,8 +69,5 @@ router.delete(
   verifyToken,
   removeWorkspaceMemberController as unknown as AuthenticatedRequestHandler
 );
-
-
-
 
 export default router;

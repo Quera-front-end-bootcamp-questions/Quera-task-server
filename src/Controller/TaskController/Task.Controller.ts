@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
+import { Types, isValidObjectId } from 'mongoose';
 import { sendResponse } from '../../Utils/SendResponse';
 import { createBoard } from '../../Repository/BoardRepo/BoardRepository';
 import { Board, IBoard, ITaskPosition } from '../../Models/Board/Board';
@@ -9,6 +9,11 @@ import {
   Project,
 } from '../../Models/Project/Project';
 import { ITask, Task } from '../../Models/Task/Task';
+import {
+  ITaskAssignee,
+  TaskAssignee,
+} from '../../Models/TaskAssignee/TaskAssignee';
+import { User } from '../../Models/User/User';
 
 export interface ICreateBoardRequestBody {
   name: string;
@@ -118,38 +123,30 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
   }
 };
 
-export const updateBoardController = async (req: Request, res: Response) => {
+export const updateTaskController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name, description, deadline } = req.body;
 
   try {
-    const board: IBoard | null = await Board.findById(id).populate({
-      path: 'tasks',
-      select: '-__v -_id',
-      populate: {
-        path: 'task',
-        select: '-__v',
-      },
-    });
+    const task: ITask | null = await Task.findById(id);
 
-    if (!board) {
-      return sendResponse(res, 404, null, 'Board not found');
+    if (!task) {
+      return sendResponse(res, 404, null, 'task not found');
     }
 
-    if (name !== undefined) {
-      // Only update name if it's provided
-      board.name = name;
-    }
+    task.name = name ? name : task.name;
+    task.description = description ? description : task.description;
+    task.deadline = deadline ? deadline : task.deadline;
 
-    await board.save();
+    await task.save();
 
     // Remove __v from the board
-    const boardObject = board.toObject({ getters: true });
-    delete boardObject.__v;
+    const taskObject = task.toObject({ getters: true });
+    delete taskObject.__v;
 
-    return sendResponse(res, 200, boardObject, 'Board updated successfully');
+    return sendResponse(res, 200, taskObject, 'task updated successfully');
   } catch (error) {
-    console.error('Error updating board:', error);
+    console.error('Error updating task:', error);
     return sendResponse(res, 500, null, 'Server error');
   }
 };
@@ -196,7 +193,7 @@ export const updateTaskPositionController = async (
         // If the board has been moved down the list, decrement the position of the boards between the old and new positions
         if (
           taskPosition.position > oldTaskPosition &&
-          taskPosition.position < newTaskPosition
+          taskPosition.position <= newTaskPosition
         ) {
           const updatedTask = await Board.findById(taskPosition.task);
           if (updatedTask) {
@@ -211,7 +208,7 @@ export const updateTaskPositionController = async (
       } else if (oldTaskPosition > newTaskPosition) {
         // If the board has been moved up the list, increment the position of the boards between the old and new positions
         if (
-          taskPosition.position > newTaskPosition &&
+          taskPosition.position >= newTaskPosition &&
           taskPosition.position < oldTaskPosition
         ) {
           const updatedTask = await Board.findById(taskPosition.task);
@@ -245,33 +242,79 @@ export const updateTaskPositionController = async (
   }
 };
 
-export const getBoardTasksController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const moveTaskController = async (req: Request, res: Response) => {
+  const { id: taskId, boardId: newBoardId } = req.params;
 
   try {
-    const board: IBoard | null = await Board.findById(id).populate({
-      path: 'tasks.task',
-      select: '-__v -_id',
-    });
+    // Convert taskId and newBoardId to ObjectIDs
+    const taskIdObj = new Types.ObjectId(taskId);
+    const newBoardIdObj = new Types.ObjectId(newBoardId);
 
-    if (!board) {
-      return sendResponse(res, 404, null, 'Board not found');
+    // Ensure taskId and newBoardId are not equal
+    if (taskIdObj.equals(newBoardIdObj)) {
+      return sendResponse(res, 400, null, 'Cannot move task to the same board');
     }
 
-    // Remove __v from each task if it exists
-    const toBeSendBoard = board;
-    const tasks = toBeSendBoard.tasks.map((taskObject) => {
-      let task = taskObject.task as ITask;
-      if (typeof task === 'object') {
-        delete task.__v;
-      }
-      return { position: taskObject.position, task };
-    });
+    // Find the task to be moved
+    const task = await Task.findById(taskIdObj);
+    if (!task) {
+      return sendResponse(res, 404, null, 'Task not found');
+    }
 
-    return sendResponse(res, 200, tasks, 'Tasks retrieved successfully');
+    // Store the old position before updating it
+    const oldPosition = task.position;
+
+    // Find the old board and remove the task from its tasks array
+    const oldBoard = await Board.findById(task.board);
+    if (!oldBoard) {
+      return sendResponse(res, 404, null, 'Task not found');
+    }
+    oldBoard.tasks = oldBoard.tasks.filter(
+      (t) => t.task.toString() !== taskIdObj._id.toString()
+    );
+
+    // Save the old board
+    await oldBoard.save();
+
+    // Find the new board and calculate the new position
+    const newBoard = await Board.findById(newBoardIdObj);
+    if (!newBoard) {
+      return sendResponse(res, 404, null, 'Task not found');
+    }
+    const sortedTasks = newBoard.tasks.sort((a, b) => a.position - b.position);
+    const newPosition =
+      sortedTasks.length > 0
+        ? sortedTasks[sortedTasks.length - 1].position + 1
+        : 1;
+
+    // Add the task to the new board's tasks array
+    newBoard.tasks.push({
+      task: taskIdObj,
+      position: newPosition,
+    } as ITaskPosition);
+
+    // Save the new board
+    await newBoard.save();
+
+    // Update the task's board and position
+    task.board = newBoardIdObj;
+    task.position = newPosition;
+
+    // Save the task
+    await task.save();
+    const toBeSendData = task.toObject();
+    delete toBeSendData.__v;
+    // Update the positions of tasks in the old board
+    await Board.updateMany(
+      { _id: oldBoard._id, 'tasks.position': { $gt: oldPosition } },
+      { $inc: { 'tasks.$[element].position': -1 } },
+      { arrayFilters: [{ 'element.position': { $gt: oldPosition } }] }
+    );
+
+    return sendResponse(res, 200, toBeSendData, 'task moved to new board');
   } catch (error) {
-    console.error('Error getting tasks:', error);
-    return sendResponse(res, 500, null, 'Server error');
+    console.error(error);
+    return sendResponse(res, 500, null, 'server error');
   }
 };
 
@@ -330,5 +373,126 @@ export const removeTaskController = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error deleting board:', error);
     return sendResponse(res, 500, null, 'Server error');
+  }
+};
+
+export const assignTaskController = async (req: Request, res: Response) => {
+  const { taskId, usernameOrId } = req.params;
+  let user;
+
+  // Attempt to convert usernameOrId to an ObjectId
+  let userId;
+  try {
+    userId = new Types.ObjectId(usernameOrId);
+  } catch (error) {
+    userId = null;
+  }
+
+  // Query for the user
+  if (userId) {
+    user = await User.findById(userId);
+  } else {
+    user = await User.findOne({ username: usernameOrId });
+  }
+
+  if (!user) {
+    return sendResponse(res, 404, null, 'User not found');
+  }
+
+  const task: ITask | null = await Task.findById(taskId).populate({
+    path: 'taskAssigns',
+    model: 'TaskAssignee',  // replace with your actual TaskAssignee model name if different
+  
+  });
+  if (!task) {
+    return sendResponse(res, 404, null, 'Task not found');
+  }
+
+  const existingTaskAssignee: ITaskAssignee | null = await TaskAssignee.findOne(
+    {
+      task: taskId,
+      user: user._id,
+    }
+  );
+
+  if (existingTaskAssignee) {
+    return sendResponse(res, 400, null, 'Task already assigned to this user');
+  }
+
+  const newTaskAssignee: ITaskAssignee = new TaskAssignee({
+    task: taskId,
+    user: user._id,
+  });
+
+  await newTaskAssignee.save();
+
+ 
+
+
+  task.taskAssigns.push(newTaskAssignee._id);
+ await task.save();
+
+ await task.populate({
+  path: 'taskAssigns',
+  model: 'TaskAssignee',
+  select:'-__v -task -_id',
+  populate: {
+    path: 'user',
+    model:'User',
+    select:'username _id'
+  }  // replace with your actual TaskAssignee model name if different
+
+});
+
+  user.taskAssignees.push(newTaskAssignee._id);
+  await user.save();
+
+  const { username, _id } = user.toObject();
+  const { __v, ...toBeSendTaskData } = task.toObject();
+
+  return sendResponse(
+    res,
+    200,
+    { task: toBeSendTaskData, user: { username, _id } },
+    'Task assigned to user'
+  );
+};
+
+export const unassignTaskController = async (req: Request, res: Response) => {
+  try {
+    // Extract task id and user identifier from parameters
+    const { taskId, usernameOrId } = req.params;
+
+    // Try to parse usernameOrId as an ObjectId. If it fails, treat it as a username.
+    let userId;
+    if (isValidObjectId(usernameOrId)) {
+      userId = new Types.ObjectId(usernameOrId);
+    } else {
+      const user = await User.findOne({ username: usernameOrId });
+      if (!user) {
+        return sendResponse(res, 404, null, 'User not found.');
+      }
+      userId = user._id;
+    }
+
+    // Check if the task is assigned to the user
+    const assignee = await TaskAssignee.findOne({ task: taskId, user: userId });
+    if (!assignee) {
+      return sendResponse(res, 400, null, 'Task is not assigned to the user.');
+    }
+
+    // Remove the task assignee
+    await TaskAssignee.findByIdAndRemove(assignee._id);
+
+    // Update the task and user to remove the reference to the task assignee
+    await Task.findByIdAndUpdate(taskId, {
+      $pull: { taskAssigns: assignee._id },
+    });
+    await User.findByIdAndUpdate(userId, {
+      $pull: { taskAssignees: assignee._id },
+    });
+    return sendResponse(res, 200, null, 'Task unassigned successfully.');
+  } catch (error) {
+    res.status(500).send({ message: 'An error occurred.' });
   }
 };

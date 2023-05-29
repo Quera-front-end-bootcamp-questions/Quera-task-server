@@ -46,8 +46,9 @@ const registerUserController = async (
       ...req.body,
       password_hash: hashedPassword,
     });
-
-    return sendResponse(res, 201, user, "User registered successfully");
+    const {__v, password_hash, ...toBeSend} = user.toObject()
+    
+    return sendResponse(res, 201, toBeSend, "User registered successfully");
   } catch (error) {
     console.error(error);
     return sendResponse(res, 500, null, "Internal Server Error");
@@ -62,12 +63,17 @@ const loginUserController = async (req: Request, res: Response) => {
     (await getUserByEmail(emailOrUsername)) ||
     (await getUserByUsername(emailOrUsername));
 
+    const {__v, password_hash, workspaces, workspaceMember, taskAssignees, comments, projectMember, ...toBeSendUserData} = user.toObject()
+   
+
   if (!user) {
     return sendResponse(res, 401, null, "Invalid email/username or password");
   }
 
   // Compare entered password with hashed password
-  const isPasswordValid = compareHash(password, user.password_hash);
+  const isPasswordValid = await compareHash(password, user.password_hash);
+  console.log(isPasswordValid);
+  
 
   if (!isPasswordValid) {
     return sendResponse(res, 401, null, "Invalid email/username or password");
@@ -81,7 +87,7 @@ const loginUserController = async (req: Request, res: Response) => {
   return sendResponse(
     res,
     200,
-    { accessToken, refreshToken, user },
+    { accessToken, refreshToken, toBeSendUserData },
     "User logged in successfully"
   );
 };
@@ -152,10 +158,10 @@ const createRefreshTokenController = async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   // Verify refresh token
-  const decoded: any = createRefreshToken(refreshToken);
+  const decoded: any =  createRefreshToken(refreshToken);
 
   // Create new access token
-  const accessToken = createAccessToken(decoded);
+  const accessToken =  createAccessToken(decoded);
 
   // Send response
   return sendResponse(
