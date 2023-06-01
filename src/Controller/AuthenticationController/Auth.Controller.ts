@@ -63,12 +63,14 @@ const loginUserController = async (req: Request, res: Response) => {
     (await getUserByEmail(emailOrUsername)) ||
     (await getUserByUsername(emailOrUsername));
 
-    const {__v, password_hash, workspaces, workspaceMember, taskAssignees, comments, projectMember, ...toBeSendUserData} = user.toObject()
-   
-
   if (!user) {
     return sendResponse(res, 401, null, "Invalid email/username or password");
   }
+  
+    const {__v, password_hash, workspaces, workspaceMember, taskAssignees, comments, projectMember, ...toBeSendUserData} = user.toObject()
+   
+
+
 
   // Compare entered password with hashed password
   const isPasswordValid = await compareHash(password, user.password_hash);
