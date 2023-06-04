@@ -10,7 +10,10 @@ import {
 import { sendResponse } from '../../Utils/SendResponse';
 import { Types } from 'mongoose';
 import { IWorkspace, Workspace } from '../../Models/Workspace/Workspace';
-import { IWorkspaceMember, WorkspaceMember } from '../../Models/WorkspaceMember/WorkspaceMember';
+import {
+  IWorkspaceMember,
+  WorkspaceMember,
+} from '../../Models/WorkspaceMember/WorkspaceMember';
 import { IUser, User } from '../../Models/User/User';
 
 export interface IUpdateWorkspaceRequestBody {
@@ -87,6 +90,12 @@ export const getWorkspaceByIdController = async (
   const workspaceId: Types.ObjectId = new Types.ObjectId(req.params.id);
   const userId: Types.ObjectId = new Types.ObjectId(req.user.id);
 
+  if (Types.ObjectId.isValid(userId)) {
+    sendResponse(res, 400, null, 'userId is not valid');
+  }
+  if (Types.ObjectId.isValid(workspaceId)) {
+    sendResponse(res, 400, null, 'workspaceId is not valid');
+  }
   try {
     const workspace: IWorkspace | null = await getWorkspaceById(workspaceId);
 
@@ -200,12 +209,12 @@ export const removeWorkspaceMemberController = async (
       (memberId) => memberId.toString() !== workspaceMember._id.toString()
     );
 
-
-
     // Remove the WorkspaceMember references from the user's workspaceMember array
-    user.workspaceMember = user.workspaceMember.filter(workspaceMemberId => !workspaceMember._id.equals(workspaceMemberId))
+    user.workspaceMember = user.workspaceMember.filter(
+      (workspaceMemberId) => !workspaceMember._id.equals(workspaceMemberId)
+    );
 
-    await user.save()
+    await user.save();
     // Save the updated workspace
     await workspace.save();
 
@@ -278,7 +287,7 @@ export const addWorkspaceMemberController = async (
 
     user.workspaceMember.push(workspaceMember._id);
 
-    await user.save()
+    await user.save();
     // Save the WorkspaceMember document
     await workspaceMember.save();
 
