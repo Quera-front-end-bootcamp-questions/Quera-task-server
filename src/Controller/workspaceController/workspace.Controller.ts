@@ -90,10 +90,10 @@ export const getWorkspaceByIdController = async (
   const workspaceId: Types.ObjectId = new Types.ObjectId(req.params.id);
   const userId: Types.ObjectId = new Types.ObjectId(req.user.id);
 
-  if (Types.ObjectId.isValid(userId)) {
+  if (!Types.ObjectId.isValid(userId)) {
     sendResponse(res, 400, null, 'userId is not valid');
   }
-  if (Types.ObjectId.isValid(workspaceId)) {
+  if (!Types.ObjectId.isValid(workspaceId)) {
     sendResponse(res, 400, null, 'workspaceId is not valid');
   }
   try {
