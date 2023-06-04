@@ -13,6 +13,8 @@ const { Comment } = require('../Models/Comment/Comment');
 
 const DATABASE_URL = "mongodb://localhost:27017/quera-trello";
 
+// const DATABASE_URL = "mongodb://0.0.0.0:27017/quera-trello";
+
 const connectToDatabase = async () => {
   try {
     await mongoose.connect(DATABASE_URL, {
