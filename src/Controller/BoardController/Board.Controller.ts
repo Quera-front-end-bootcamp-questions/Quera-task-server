@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
+import { Types, model } from 'mongoose';
 import { sendResponse } from '../../Utils/SendResponse';
 import { createBoard } from '../../Repository/BoardRepo/BoardRepository';
 import { Board, IBoard, ITaskPosition } from '../../Models/Board/Board';
@@ -58,6 +58,10 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
         populate: {
           path: 'task',
           select: '-__v',
+          populate: {
+            path: 'comments taskAssigns',
+            select: '-__v -task',
+          }
         },
       })
       .exec();
@@ -71,9 +75,13 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
     const transformedBoards = boards.map((board) => {
       const { __v, ...boardObject } = board.toObject();
 
-      boardObject.tasks = boardObject.tasks.map(
-        (taskObject) => taskObject.task
-      ) as unknown as ITaskPosition[];
+      boardObject.tasks = boardObject.tasks.map((taskObject: any) => {
+        // delete taskObject.task.comments;
+        taskObject.task.taskAssigns = taskObject.task.taskAssigns.map((taskAssign: any) =>{
+          return taskAssign.user
+        });
+        return taskObject.task;
+      }) as unknown as ITaskPosition[];
 
       return boardObject;
     });
@@ -231,7 +239,7 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
   try {
     const board: IBoard | null = await Board.findById(id).populate({
       path: 'tasks.task',
-      select: '-__v ' ,
+      select: '-__v ',
     });
 
     if (!board) {
@@ -245,7 +253,7 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
       if (typeof task === 'object') {
         delete task.__v;
       }
-      return  task ;
+      return task;
     });
 
     return sendResponse(res, 200, tasks, 'Tasks retrieved successfully');

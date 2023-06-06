@@ -4,9 +4,10 @@ import {
   getUserByUsernameController,
   updateUserController,
 } from "../../Controller/UserController/User.Controller";
+import { verifyToken } from "../../Middleware/Authenticate";
 
 const router = express.Router();
 router.get("/:usernameOrId", getUserByUsernameController);
-router.put("/:id", updateUserController);
+router.put("/:id", verifyToken , updateUserController);
 
 export default router;

@@ -64,19 +64,23 @@ export const getUserByUsernameController = async (
   }
 };
 
-export const updateUserController = async (
-  req: Request<
-    any,
-    any,
-    any,
-    { id: string; firstname: string; lastname: string; email: string }
-  >,
-  res: Response
-) => {
+export const updateUserController = async (req: any, res: Response) => {
   const { id } = req.params;
   const updateData = req.body;
+  const { id: userTokenId } = req.user;
 
   try {
+    if (id !== userTokenId) {
+      console.log(`id: ${id}, tokenId: ${userTokenId}`);
+
+      sendResponse(
+        res,
+        403,
+        null,
+        "you don't have access to change data of another user"
+      );
+    }
+
     const updatedUser = await updateUser(id, updateData);
 
     if (!updatedUser) {
@@ -85,6 +89,7 @@ export const updateUserController = async (
 
     // remove password hash from response
     updatedUser.password_hash = undefined;
+    updatedUser.__v = undefined;
 
     return sendResponse(res, 200, updatedUser, 'User updated successfully');
   } catch (error) {

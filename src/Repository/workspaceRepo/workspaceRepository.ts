@@ -53,8 +53,7 @@ const getAllWorkspacesForUser = async (
             '-password_hash -__v -password_reset_token -settings -phone -workspaces -workspaceMember -taskAssignees -projectMember -comments',
         },
       })
-      .populate('projects', '-__v -workspace')
-      .exec();
+      .populate('projects', '-__v -workspace');
 
     return workspaces;
   } catch (error) {
