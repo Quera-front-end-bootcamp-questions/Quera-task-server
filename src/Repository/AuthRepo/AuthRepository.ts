@@ -1,16 +1,14 @@
-
 //create function
 
-import { User } from "../../Models/User/User";
+import { User } from '../../Models/User/User';
 
 const createUser = async (userData: any) => {
   if (userData !== undefined && userData !== null) {
     return await User.create(userData);
   } else {
-    throw new Error("userData parameter is undefined or null");
+    throw new Error('userData parameter is undefined or null');
   }
 };
-
 
 const getAllUsers = async () => {
   return User.find();
@@ -54,10 +52,14 @@ const getUserByPasswordResetToken = async (token: string) => {
 };
 
 const updatePassword = async (userId: number, newPasswordHash: string) => {
-  return User.updateOne(
-    { id: userId },
-    { password_hash: newPasswordHash, password_reset_token: null }
-  );
+  const user = await User.findById(userId);
+  if (user) {
+    user.password_reset_token = undefined;
+    user.password_hash = newPasswordHash;
+    await user.save();
+    return user;
+  }
+  return null;
 };
 
 export {
