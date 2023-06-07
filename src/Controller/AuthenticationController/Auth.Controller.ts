@@ -13,6 +13,7 @@ import {
 import {
   createAccessToken,
   createRefreshToken,
+  verifyRefreshToken,
 } from "../../Utils/Jsonwebtoken";
 import { compareHash } from "../../Utils/Crypto/Crypto";
 import EmailSender from "../../Utils/EmailServices/EmailSender";
@@ -66,7 +67,7 @@ const loginUserController = async (req: Request, res: Response) => {
   if (!user) {
     return sendResponse(res, 401, null, "Invalid email/username or password");
   }
-  
+
     const {__v, password_hash, workspaces, workspaceMember, taskAssignees, comments, projectMember, ...toBeSendUserData} = user.toObject()
    
 
@@ -160,7 +161,7 @@ const createRefreshTokenController = async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
 
   // Verify refresh token
-  const decoded: any =  createRefreshToken(refreshToken);
+  const decoded: any = verifyRefreshToken(refreshToken);
 
   // Create new access token
   const accessToken =  createAccessToken(decoded);

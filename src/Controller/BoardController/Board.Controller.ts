@@ -8,7 +8,9 @@ import {
   IProject,
   Project,
 } from '../../Models/Project/Project';
-import { ITask } from '../../Models/Task/Task';
+import { ITask, Task } from '../../Models/Task/Task';
+import { ITaskAssignee } from '../../Models/TaskAssignee/TaskAssignee';
+import { User } from '../../Models/User/User';
 
 export interface ICreateBoardRequestBody {
   name: string;
@@ -57,11 +59,15 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
         select: '-__v -position -_id',
         populate: {
           path: 'task',
-          select: '-__v',
+          select: '-__v -taskTags',
           populate: {
             path: 'comments taskAssigns',
             select: '-__v -task',
-          }
+            populate: {
+              path: 'user',
+              select: 'username email firstname _id',
+            },
+          },
         },
       })
       .exec();
@@ -77,9 +83,11 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
 
       boardObject.tasks = boardObject.tasks.map((taskObject: any) => {
         // delete taskObject.task.comments;
-        taskObject.task.taskAssigns = taskObject.task.taskAssigns.map((taskAssign: any) =>{
-          return taskAssign.user
-        });
+        taskObject.task.taskAssigns = taskObject.task.taskAssigns.map(
+          (taskAssign: any) => {
+            return taskAssign.user;
+          }
+        );
         return taskObject.task;
       }) as unknown as ITaskPosition[];
 
@@ -237,10 +245,23 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const board: IBoard | null = await Board.findById(id).populate({
-      path: 'tasks.task',
-      select: '-__v ',
+    let board: IBoard | null = await Board.findById(id).populate({
+      path: 'tasks',
+      select: '-__v -position -_id',
+      populate: {
+        path: 'task',
+        select: '-__v',
+        populate: {
+          path: 'comments taskAssigns',
+          select: '-__v -task',
+          populate: {
+            path: 'user',
+            select: 'username email firstname _id',
+          },
+        },
+      },
     });
+
 
     if (!board) {
       return sendResponse(res, 404, null, 'Board not found');
@@ -248,12 +269,35 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
 
     // Remove __v from each task if it exists
     const toBeSendBoard = board;
-    const tasks = toBeSendBoard.tasks.map((taskObject) => {
-      let task = taskObject.task as ITask;
-      if (typeof task === 'object') {
-        delete task.__v;
-      }
-      return task;
+    let tasks = await Promise.all(
+      toBeSendBoard.tasks.map(async (taskObject) => {
+        let task = taskObject.task as ITask;
+
+        if (typeof task === 'object') {
+          delete task.__v;
+        }
+
+        return task;
+      })
+    );
+
+    tasks = await Task.populate(tasks, {
+      path: 'taskTags',
+      select: '-__v -_id -task',
+      populate: {
+        path: 'tag',
+        select: '-__v -tasks',
+      },
+    });
+
+    tasks = tasks.map((taskObj) => {
+      taskObj.taskTags =  taskObj.taskTags.map( (taskTagObj: any) => {
+        return{...taskTagObj.tag}
+      } )
+      taskObj.taskAssigns = taskObj.taskAssigns.map((taskAssignObj: any) => {
+        return { ...taskAssignObj.user };
+      });
+      return taskObj;
     });
 
     return sendResponse(res, 200, tasks, 'Tasks retrieved successfully');
