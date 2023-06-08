@@ -3,6 +3,7 @@ import { verifyToken } from '../../Middleware/Authenticate';
 import {
   assignTaskController,
   createTaskController,
+  getTaskByIdController,
   moveTaskController,
   removeTaskController,
   unassignTaskController,
@@ -12,6 +13,7 @@ import {
 
 const router = express.Router();
 
+router.get('/:id', verifyToken, getTaskByIdController as any);
 router.post('/', verifyToken, createTaskController as any);
 router.delete('/:id', verifyToken, removeTaskController);
 router.put('/:id/position/:index', verifyToken, updateTaskPositionController);
