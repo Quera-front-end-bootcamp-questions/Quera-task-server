@@ -122,6 +122,40 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
     return sendResponse(res, 500, null, 'Server error');
   }
 };
+export const getTaskByIdController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findById(id)
+      .populate({
+        path: 'comments taskAssigns',
+        select: '-__v -task',
+        populate: {
+          path: 'user',
+          select: 'username email firstname _id',
+        },
+      })
+      .select('-__v');
+
+    if (!task) {
+      return sendResponse(res, 400, null, 'task not found.');
+    }
+
+    await Task.populate(task, {
+      path: 'taskTags',
+      select: '-__v -_id -task',
+      populate: {
+        path: 'tag',
+        select: '-__v -tasks',
+      },
+    });
+
+    return sendResponse(res, 200, task, 'task fetched successfully');
+  } catch (error) {
+    console.error('Error fetching boards:', error);
+    return sendResponse(res, 500, null, 'Server error');
+  }
+};
 
 export const updateTaskController = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -401,8 +435,7 @@ export const assignTaskController = async (req: Request, res: Response) => {
 
   const task: ITask | null = await Task.findById(taskId).populate({
     path: 'taskAssigns',
-    model: 'TaskAssignee',  // replace with your actual TaskAssignee model name if different
-  
+    model: 'TaskAssignee', // replace with your actual TaskAssignee model name if different
   });
   if (!task) {
     return sendResponse(res, 404, null, 'Task not found');
@@ -426,23 +459,19 @@ export const assignTaskController = async (req: Request, res: Response) => {
 
   await newTaskAssignee.save();
 
- 
-
-
   task.taskAssigns.push(newTaskAssignee._id);
- await task.save();
+  await task.save();
 
- await task.populate({
-  path: 'taskAssigns',
-  model: 'TaskAssignee',
-  select:'-__v -task -_id',
-  populate: {
-    path: 'user',
-    model:'User',
-    select:'username _id'
-  }  // replace with your actual TaskAssignee model name if different
-
-});
+  await task.populate({
+    path: 'taskAssigns',
+    model: 'TaskAssignee',
+    select: '-__v -task -_id',
+    populate: {
+      path: 'user',
+      model: 'User',
+      select: 'username _id',
+    }, // replace with your actual TaskAssignee model name if different
+  });
 
   user.taskAssignees.push(newTaskAssignee._id);
   await user.save();
