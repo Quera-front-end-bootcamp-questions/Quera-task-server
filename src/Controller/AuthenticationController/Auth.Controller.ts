@@ -66,7 +66,7 @@ const loginUserController = async (req: Request, res: Response) => {
       (await getUserByUsername(emailOrUsername));
 
     if (!user) {
-      return sendResponse(res, 401, null, 'Invalid email/username or password');
+      return sendResponse(res, 400, null, 'Invalid email/username or password');
     }
 
     const {
