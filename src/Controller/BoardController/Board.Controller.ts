@@ -262,7 +262,6 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
       },
     });
 
-
     if (!board) {
       return sendResponse(res, 404, null, 'Board not found');
     }
@@ -291,9 +290,9 @@ export const getBoardTasksController = async (req: Request, res: Response) => {
     });
 
     tasks = tasks.map((taskObj) => {
-      taskObj.taskTags =  taskObj.taskTags.map( (taskTagObj: any) => {
-        return{...taskTagObj.tag}
-      } )
+      taskObj.taskTags = taskObj.taskTags.map((taskTagObj: any) => {
+        return { ...taskTagObj.tag };
+      });
       taskObj.taskAssigns = taskObj.taskAssigns.map((taskAssignObj: any) => {
         return { ...taskAssignObj.user };
       });

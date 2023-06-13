@@ -217,7 +217,6 @@ export const updateTaskPositionController = async (
       if (taskPosition.task.toString() === id) {
         task.position = newTaskPosition;
         return {
-          ...taskPosition,
           task: taskPosition.task,
           position: newTaskPosition,
         };
@@ -235,7 +234,7 @@ export const updateTaskPositionController = async (
             await updatedTask.save();
           }
           return {
-            ...taskPosition,
+            task: taskPosition.task,
             position: taskPosition.position - 1,
           };
         }
@@ -245,13 +244,13 @@ export const updateTaskPositionController = async (
           taskPosition.position >= newTaskPosition &&
           taskPosition.position < oldTaskPosition
         ) {
-          const updatedTask = await Board.findById(taskPosition.task);
+          const updatedTask = await Task.findById(taskPosition.task);
           if (updatedTask) {
             updatedTask.position++;
             await updatedTask.save();
           }
           return {
-            ...taskPosition,
+            task: taskPosition.task,
             position: taskPosition.position + 1,
           };
         }
