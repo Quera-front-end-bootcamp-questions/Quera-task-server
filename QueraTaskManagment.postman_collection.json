@@ -311,7 +311,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"emailOrUsername\": \"user2@gmail.com\",\r\n  \"password\": \"password125\"\r\n}\r\n",
+							"raw": "{\r\n  \"emailOrUsername\": \"user2@gmail.com\",\r\n  \"password\": \"password123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -388,7 +388,7 @@
 							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
-							"body": "{\r\n    \"message\": \"Invalid email/username or password\",\r\n    \"code\": 401,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
+							"body": "{\r\n    \"message\": \"Invalid email/username or password\",\r\n    \"code\": 400,\r\n    \"error\": true,\r\n    \"data\": null\r\n}"
 						}
 					]
 				},
@@ -522,7 +522,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user2WorkspaceNumber2\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user2WorkspaceNumber2\",\r\n    \"color\": \"#ffffff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1083,7 +1083,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project Name3\",\r\n    \"workspaceId\": \"6463828414ffcda768ce5c76\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user2Project15OfWorkspace1\",\r\n    \"workspaceId\": \"647d96a67be8051ccb913812\",\r\n    \"color\": \"#ffffff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1756,7 +1756,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user2workspace1project15board2\",\r\n    \"projectId\": \"647e63ed882a1022267bb78c\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user2workspace1project15board3\",\r\n    \"projectId\": \"647e63ed882a1022267bb78c\",\r\n    \"color\":\"#ffffff\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2297,7 +2297,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user2workspace1project15board2task2\",\r\n    \"description\": \"description description description2\",\r\n    \"boardId\": \"647ea67b882a1022267bb7a0\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user2workspace1project15board2task2\",\r\n    \"description\": \"description description description2\",\r\n    \"boardId\": \"648f5fa1fc1fc9f88c7f32a1\",\r\n    \"deadline\": \"2023-05-16T12:52:24.483+00:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2554,7 +2554,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "6474da29cfee1f54b4f961e5"
+									"value": "648f5fcbfc1fc9f88c7f32c4"
 								},
 								{
 									"key": "index",
@@ -4126,7 +4126,7 @@
 		},
 		{
 			"key": "jwtToken",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2Q5NjBlN2JlODA1MWNjYjkxMzgwZiIsInVzZXJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQGdtYWlsLmNvbSIsImlhdCI6MTY4NjAzODUwNSwiZXhwIjoxNjg2MTI0OTA1fQ.qs8bTZsansC3sTBn8K3kf2fPN6syaQEw_6P1Hvr6GpM",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2Q5NjBlN2JlODA1MWNjYjkxMzgwZiIsInVzZXJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQGdtYWlsLmNvbSIsImlhdCI6MTY4NzExNzY2NSwiZXhwIjoxNjg3MjA0MDY1fQ.wGBMCN8WfLXkRD-6CVLWGkHn0b-YL_43m7Ag_dP5Vrw",
 			"type": "default"
 		}
 	]
