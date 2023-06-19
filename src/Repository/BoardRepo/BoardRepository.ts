@@ -7,15 +7,14 @@ import { Project } from '../../Models/Project/Project';
 const createBoard = async (
   name: string,
   projectId: Types.ObjectId,
-  userId: Types.ObjectId
-): Promise< Partial<IBoard>> => {
+  userId: Types.ObjectId,
+  color: string
+): Promise<Partial<IBoard>> => {
   try {
-    
     const projectToUpdate = await Project.findById(projectId);
 
-    
-// TODO check user permission
-    if (!projectToUpdate ) {
+    // TODO check user permission
+    if (!projectToUpdate) {
       throw new Error('Project not found');
     }
     const maxPosition =
@@ -25,10 +24,11 @@ const createBoard = async (
 
     const board = new Board({
       name,
+      color,
       project: projectId,
       position: maxPosition + 1,
     });
-     let createdBoard = await board.save();
+    let createdBoard = await board.save();
 
     // Update the boards field in the project with the new board and its position
     projectToUpdate.boards.push({
@@ -37,7 +37,7 @@ const createBoard = async (
     });
     await projectToUpdate.save();
 
-  const {__v, ...toBeSendBoardData} =  board.toObject()
+    const { __v, ...toBeSendBoardData } = board.toObject();
 
     return toBeSendBoardData;
   } catch (error) {
@@ -46,15 +46,20 @@ const createBoard = async (
   }
 };
 
-//@ts-expect-error
 // Get a board by ID
-const getBoardById = async (  boardId: Types.ObjectId): Promise<IBoard | null> => {
+const getBoardById = async (
+  boardId: Types.ObjectId 
+  //@ts-ignore
+): Promise<IBoard | null> => {
   // Implement the logic to retrieve a board by its ID
 };
 
-//@ts-expect-error
 // Update a board
-const updateBoard = async (  boardId: Types.ObjectId,  updates: Partial<ICreateBoardRequestBody>): Promise<IBoard> => {
+const updateBoard = async (
+  boardId: Types.ObjectId,
+  updates: Partial<ICreateBoardRequestBody>
+   //@ts-ignore
+): Promise<IBoard> => {
   // Implement the logic to update a board
 };
 //@ts-expect-error

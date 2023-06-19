@@ -27,6 +27,7 @@ export interface ICreateWorkspaceRequestBody {
   members?: string[];
   projects?: Types.ObjectId[];
   image?: String;
+  color: String
 }
 export interface IAuthenticatedRequest extends Request<any, any, any, any> {
   user: {
@@ -50,11 +51,11 @@ export const createWorkspaceController = async (
   req: IAuthenticatedCreateRequest,
   res: Response
 ) => {
-  const { name } = req.body;
+  const { name , color} = req.body;
   const userId: Types.ObjectId = new Types.ObjectId(req.user.id);
 
   try {
-    const workspace = await createWorkspace(name, userId);
+    const workspace = await createWorkspace(name, userId, color);
     return sendResponse(res, 201, workspace, 'workspace created successfully');
   } catch (error) {
     console.error(error);

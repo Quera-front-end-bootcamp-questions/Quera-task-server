@@ -10,12 +10,14 @@ export interface IBoard extends Document {
   project: Types.ObjectId;
   position: number;
   tasks: ITaskPosition[];
+  color: string;
 }
 
 const boardSchema = new Schema<IBoard>({
   name: { type: String, required: true },
   position: { type: Number, required: true },
   project: { type: Schema.Types.ObjectId, ref: 'Project', required: true },
+  color: { type: String, default: '#0000ff' },
   tasks: [
     {
       task: { type: Schema.Types.ObjectId, ref: 'Task' },

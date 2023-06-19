@@ -1,25 +1,24 @@
 import { IWorkspace, Workspace } from '../../Models/Workspace/Workspace';
-import { Schema, Types } from 'mongoose';
+import {  Types } from 'mongoose';
 import {
   IWorkspaceMember,
   WorkspaceMember,
 } from '../../Models/WorkspaceMember/WorkspaceMember';
 import {
-  ICreateWorkspaceRequestBody,
   IUpdateWorkspaceRequestBody,
 } from '../../Controller/workspaceController/workspace.Controller';
-import { Project } from '../../Models/Project/Project';
 import { IUser, User } from '../../Models/User/User';
-import { log } from 'console';
 
 const createWorkspace = async (
   name: string,
-  userId: Types.ObjectId
+  userId: Types.ObjectId,
+  color: String
 ): Promise<Partial<IWorkspace>> => {
   try {
     const workspace = new Workspace({
       name: name,
       user: new Types.ObjectId(userId),
+      color 
     });
 
     await User.findByIdAndUpdate(userId, {

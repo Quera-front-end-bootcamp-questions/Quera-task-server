@@ -15,6 +15,7 @@ import { User } from '../../Models/User/User';
 export interface ICreateBoardRequestBody {
   name: string;
   projectId: Types.ObjectId;
+  color: string
 }
 
 export interface IAuthenticatedRequest extends Request<any, any, any, any> {
@@ -36,12 +37,12 @@ export const createBoardController = async (
   req: IAuthenticatedCreateRequest,
   res: Response
 ) => {
-  const { name, projectId } = req.body;
+  const { name, projectId, color } = req.body;
 
   try {
     const userId: Types.ObjectId = new Types.ObjectId(req.user.id);
 
-    const board = await createBoard(name, projectId, userId);
+    const board = await createBoard(name, projectId, userId, color);
     return sendResponse(res, 201, board, 'Board created successfully');
   } catch (error) {
     console.error(error);
@@ -109,7 +110,7 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
 
 export const updateBoardController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { name, color } = req.body;
 
   try {
     const board: IBoard | null = await Board.findById(id).populate({
@@ -128,6 +129,10 @@ export const updateBoardController = async (req: Request, res: Response) => {
     if (name !== undefined) {
       // Only update name if it's provided
       board.name = name;
+    }
+    if (color !== undefined) {
+      // Only update color if it's provided
+      board.color = color;
     }
 
     await board.save();

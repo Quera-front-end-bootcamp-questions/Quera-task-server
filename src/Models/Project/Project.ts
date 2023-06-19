@@ -10,12 +10,14 @@ export interface IProject extends Document {
   workspace: Types.ObjectId;
   members: Types.ObjectId[];
   boards: IBoardPosition[];
+  color: string
 }
 
 const projectSchema = new Schema<IProject>({
   name: { type: String, required: true },
   workspace: { type: Schema.Types.ObjectId, ref: 'Workspace', required: true },
   members: [{ type: Schema.Types.ObjectId, ref: 'ProjectMember' }],
+  color:{type: String, default: '#0000ff' },
   boards: [
     {
       board: { type: Schema.Types.ObjectId, ref: 'Board' },

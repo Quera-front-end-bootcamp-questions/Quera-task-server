@@ -28,11 +28,11 @@ export const createProjectController = async (
   req: IAuthenticatedRequest,
   res: Response
 ) => {
-  const { name, workspaceId } = req.body;
+  const { name, workspaceId , color} = req.body;
   const userId = req?.user.id
 
   try {
-    const project = await createProject(name, workspaceId, userId);
+    const project = await createProject(name, workspaceId, userId, color);
     return sendResponse(res, 201, project, "Project created successfully");
   } catch (error) {
     console.error(error);
@@ -92,7 +92,7 @@ export const deleteProjectController = async (
 };
 
 export const updateProjectController = async (
-  req: Request<any, any, { id: string }, any, { name?: string, position: number }>,
+  req: Request<any, any, { id: string, color:string }, any, { name?: string, position: number }>,
   res: Response
 ) => {
   const projectId: string = req.params.id;

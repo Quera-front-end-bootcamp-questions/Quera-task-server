@@ -7,7 +7,8 @@ import { Types } from 'mongoose';
 const createProject = async (
   name: string,
   workspaceId: string,
-  userId: Types.ObjectId
+  userId: Types.ObjectId,
+  color: string
 ): Promise<any> => {
   const workspace = await Workspace.findById(workspaceId);
 
@@ -18,6 +19,7 @@ const createProject = async (
   const project = await Project.create({
     name,
     workspace: workspaceId,
+    color
   });
 
   const owner = await User.findById(userId);
