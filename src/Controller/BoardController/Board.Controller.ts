@@ -15,7 +15,7 @@ import { User } from '../../Models/User/User';
 export interface ICreateBoardRequestBody {
   name: string;
   projectId: Types.ObjectId;
-  color: string
+  color: string;
 }
 
 export interface IAuthenticatedRequest extends Request<any, any, any, any> {
@@ -53,14 +53,16 @@ export const createBoardController = async (
 export const getAllBoardsController = async (req: Request, res: Response) => {
   try {
     const { projectId } = req.params;
-    // Fetch all boards and populate tasks
-    const boards = await Board.find({ project: projectId })
-      .populate({
+
+    const project = await Project.findById(projectId).populate({
+      path: 'boards.board',
+      select: '-_id -__v -position',
+      populate: {
         path: 'tasks',
-        select: '-__v -position -_id',
+        select: '-__v  -_id',
         populate: {
           path: 'task',
-          select: '-__v -taskTags',
+          select: '-__v -position -taskTags',
           populate: {
             path: 'comments taskAssigns',
             select: '-__v -task',
@@ -70,30 +72,54 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
             },
           },
         },
-      })
-      .exec();
+      },
+    });
+
+    // Fetch all boards and populate tasks
+    // const boards = await Board.find({ project: projectId })
+    //   .populate({
+    //     path: 'tasks',
+    //     select: '-__v -position -_id',
+    //     populate: {
+    //       path: 'task',
+    //       select: '-__v -taskTags',
+    //       populate: {
+    //         path: 'comments taskAssigns',
+    //         select: '-__v -task',
+    //         populate: {
+    //           path: 'user',
+    //           select: 'username email firstname _id',
+    //         },
+    //       },
+    //     },
+    //   })
+    //   .exec();
 
     // If no boards found, return a message
-    if (boards.length === 0) {
+    if (!project || project?.boards?.length === 0) {
       return sendResponse(res, 200, [], 'No boards found');
     }
-
+    console.log(project.boards);
     // Transform the documents: remove __v and populate tasks
-    const transformedBoards = boards.map((board) => {
-      const { __v, ...boardObject } = board.toObject();
+    const transformedBoards = project
+      .toObject()
+      .boards.map(({ board, position }: any) => {
+        const { __v, ...boardObject } = board;
+        boardObject.position = position;
 
-      boardObject.tasks = boardObject.tasks.map((taskObject: any) => {
-        // delete taskObject.task.comments;
-        taskObject.task.taskAssigns = taskObject.task.taskAssigns.map(
-          (taskAssign: any) => {
-            return taskAssign.user;
-          }
-        );
-        return taskObject.task;
-      }) as unknown as ITaskPosition[];
+        boardObject.tasks = boardObject.tasks.map((taskObject: any) => {
+          // delete taskObject.task.comments;
+          taskObject.task.taskAssigns = taskObject.task.taskAssigns.map(
+            (taskAssign: any) => {
+              return taskAssign.user;
+            }
+          );
+          taskObject.task.position = taskObject.position;
+          return taskObject.task;
+        }) as unknown as ITaskPosition[];
 
-      return boardObject;
-    });
+        return boardObject;
+      });
 
     // Return the list of boards
     return sendResponse(
