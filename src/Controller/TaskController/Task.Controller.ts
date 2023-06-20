@@ -132,7 +132,7 @@ export const getTaskByIdController = async (req: Request, res: Response) => {
         select: '-__v -task',
         populate: {
           path: 'user',
-          select: 'username email firstname _id',
+          select: 'username email profile_url firstname _id',
         },
       })
       .select('-__v');
