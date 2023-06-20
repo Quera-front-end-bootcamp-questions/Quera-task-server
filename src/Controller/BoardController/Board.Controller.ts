@@ -56,7 +56,7 @@ export const getAllBoardsController = async (req: Request, res: Response) => {
 
     const project = await Project.findById(projectId).populate({
       path: 'boards.board',
-      select: '-_id -__v -position',
+      select: '-__v -position',
       populate: {
         path: 'tasks',
         select: '-__v  -_id',
