@@ -11,7 +11,7 @@ const { Task } = require('../Models/Task/Task');
 const { Tag } = require('../Models/Tag/Tag');
 const { Comment } = require('../Models/Comment/Comment');
 
-const DATABASE_URL = "mongodb://localhost:27017/quera-trello";
+const DATABASE_URL = "mongodb+srv://salar:Aqukqi6PJqDoATnH@cluster0.q03tmrg.mongodb.net/quera-trello";
 
 // const DATABASE_URL = "mongodb://0.0.0.0:27017/quera-trello";
 

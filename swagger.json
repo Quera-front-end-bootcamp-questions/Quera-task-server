@@ -1,20 +1,24 @@
 {
     "swagger": "2.0",
     "info": {
-      "title": "عنوان مستندات API",
-      "description": "توضیحات مستندات API",
+      "title": "API Documentation",
+      "description": "Documentation for API endpoints",
       "version": "1.0.0"
     },
-    "basePath": "/",
+    "host": "localhost:3000",
+    "basePath": "/api",
     "schemes": [
       "http",
       "https"
     ],
     "paths": {
-      "/api/auth/register": {
+      "/auth/register": {
         "post": {
-          "summary": "Register",
-          "description": "ثبت نام کاربر جدید",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Register a new user",
+          "description": "Registers a new user with the provided information",
           "consumes": [
             "application/json"
           ],
@@ -23,9 +27,9 @@
           ],
           "parameters": [
             {
-              "name": "body",
               "in": "body",
-              "required": true,
+              "name": "user",
+              "description": "User object",
               "schema": {
                 "$ref": "#/definitions/RegisterRequest"
               }
@@ -33,21 +37,27 @@
           ],
           "responses": {
             "201": {
-              "description": "موفقیت آمیز",
+              "description": "User registered successfully",
               "schema": {
                 "$ref": "#/definitions/RegisterResponse"
               }
             },
+            "400": {
+              "description": "Bad request"
+            },
             "409": {
-              "description": "ایمیل در حال استفاده است"
+              "description": "Email address is already in use"
             }
           }
         }
       },
-      "api/auth/login": {
+      "/auth/login": {
         "post": {
+          "tags": [
+            "Authentication"
+          ],
           "summary": "Login",
-          "description": "ورود کاربر",
+          "description": "Logs in a user with the provided credentials",
           "consumes": [
             "application/json"
           ],
@@ -56,9 +66,9 @@
           ],
           "parameters": [
             {
-              "name": "body",
               "in": "body",
-              "required": true,
+              "name": "credentials",
+              "description": "User credentials",
               "schema": {
                 "$ref": "#/definitions/LoginRequest"
               }
@@ -66,61 +76,72 @@
           ],
           "responses": {
             "200": {
-              "description": "موفقیت آمیز",
+              "description": "User logged in successfully",
               "schema": {
                 "$ref": "#/definitions/LoginResponse"
               }
             },
             "400": {
-              "description": "ایمیل/نام کاربری یا رمزعبور نامعتبر است"
+              "description": "Invalid email/username or password"
             }
           }
         }
       },
       "/auth/reset-password": {
         "post": {
-          "summary": "Reset Password",
-          "description": "تنظیم مجدد رمزعبور",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Reset password",
+          "description": "Resets the user's password with the provided reset token",
           "consumes": [
             "application/json"
           ],
           "produces": [],
           "parameters": [
             {
-              "name": "body",
               "in": "body",
-              "required": true,
+              "name": "resetData",
+              "description": "Reset password data",
               "schema": {
                 "$ref": "#/definitions/ResetPasswordRequest"
               }
             }
-          ]
+          ],
+          "responses": {}
         }
       },
       "/auth/forget-password": {
         "post": {
-          "summary": "Forget Password",
-          "description": "فراموشی رمزعبور",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Forget password",
+          "description": "Sends a password reset email to the user's email address",
           "consumes": [
             "application/json"
           ],
           "produces": [],
           "parameters": [
             {
-              "name": "body",
               "in": "body",
-              "required": true,
+              "name": "emailData",
+              "description": "Forget password data",
               "schema": {
                 "$ref": "#/definitions/ForgetPasswordRequest"
               }
             }
-          ]
+          ],
+          "responses": {}
         }
       },
       "/auth/refreshtoken": {
         "post": {
-          "summary": "Refresh Token",
-          "description": "تازه‌سازی توکن",
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Refresh token",
+          "description": "Refreshes the access token with a valid refresh token",
           "consumes": [
             "application/json"
           ],
@@ -129,9 +150,9 @@
           ],
           "parameters": [
             {
-              "name": "body",
               "in": "body",
-              "required": true,
+              "name": "refreshTokenData",
+              "description": "Refresh token data",
               "schema": {
                 "$ref": "#/definitions/RefreshTokenRequest"
               }
@@ -139,7 +160,7 @@
           ],
           "responses": {
             "200": {
-              "description": "موفقیت آمیز",
+              "description": "Refresh token created successfully",
               "schema": {
                 "$ref": "#/definitions/RefreshTokenResponse"
               }
@@ -154,37 +175,37 @@
         "properties": {
           "username": {
             "type": "string",
-            "description": "نام کاربری",
+            "description": "Username",
             "example": "user2"
           },
           "email": {
             "type": "string",
-            "description": "ایمیل",
+            "description": "Email address",
             "example": "user2@gmail.com"
           },
           "password": {
             "type": "string",
-            "description": "رمزعبور",
+            "description": "Password",
             "example": "password123"
           },
           "firstname": {
             "type": "string",
-            "description": "نام",
+            "description": "First name",
             "example": "John"
           },
           "lastname": {
             "type": "string",
-            "description": "نام خانوادگی",
+            "description": "Last name",
             "example": "Doe"
           },
           "profile_url": {
             "type": "string",
-            "description": "آدرس تصویر پروفایل",
+            "description": "Profile image URL",
             "example": "https://example.com/john_doe/profile.jpg"
           },
           "phone": {
             "type": "string",
-            "description": "شماره تلفن",
+            "description": "Phone number",
             "example": "+1-555-555-5555"
           }
         }
@@ -194,17 +215,17 @@
         "properties": {
           "message": {
             "type": "string",
-            "description": "پیام",
-            "example": "ثبت نام کاربر با موفقیت انجام شد"
+            "description": "Message",
+            "example": "User registered successfully"
           },
           "code": {
             "type": "integer",
-            "description": "کد",
+            "description": "Code",
             "example": 201
           },
           "error": {
             "type": "boolean",
-            "description": "خطا",
+            "description": "Error status",
             "example": false
           },
           "data": {
@@ -212,68 +233,33 @@
             "properties": {
               "username": {
                 "type": "string",
-                "description": "نام کاربری",
-                "example": "sina2"
+                "description": "Username",
+                "example": "user2"
               },
               "firstname": {
                 "type": "string",
-                "description": "نام",
+                "description": "First name",
                 "example": "John"
               },
               "lastname": {
                 "type": "string",
-                "description": "نام خانوادگی",
+                "description": "Last name",
                 "example": "Doe"
               },
               "email": {
                 "type": "string",
-                "description": "ایمیل",
-                "example": "sina.nili0977@gmail.com"
+                "description": "Email address",
+                "example": "user2@gmail.com"
               },
               "profile_url": {
                 "type": "string",
-                "description": "آدرس تصویر پروفایل",
+                "description": "Profile image URL",
                 "example": "https://example.com/john_doe/profile.jpg"
               },
               "phone": {
                 "type": "string",
-                "description": "شماره تلفن",
+                "description": "Phone number",
                 "example": "+1-555-555-5555"
-              },
-              "workspaces": {
-                "type": "array",
-                "description": "فضاهای کاری",
-                "items": []
-              },
-              "workspaceMember": {
-                "type": "array",
-                "description": "اعضای فضاهای کاری",
-                "items": []
-              },
-              "taskAssignees": {
-                "type": "array",
-                "description": "کارهای اختصاص داده شده",
-                "items": []
-              },
-              "comments": {
-                "type": "array",
-                "description": "نظرات",
-                "items": []
-              },
-              "settings": {
-                "type": "array",
-                "description": "تنظیمات",
-                "items": []
-              },
-              "projectMember": {
-                "type": "array",
-                "description": "اعضای پروژه",
-                "items": []
-              },
-              "_id": {
-                "type": "string",
-                "description": "شناسه",
-                "example": "647369dcdb1049e0257bf715"
               }
             }
           }
@@ -284,12 +270,12 @@
         "properties": {
           "emailOrUsername": {
             "type": "string",
-            "description": "ایمیل یا نام کاربری",
+            "description": "Email or username",
             "example": "user2@gmail.com"
           },
           "password": {
             "type": "string",
-            "description": "رمزعبور",
+            "description": "Password",
             "example": "password123"
           }
         }
@@ -299,17 +285,17 @@
         "properties": {
           "message": {
             "type": "string",
-            "description": "پیام",
-            "example": "ورود کاربر با موفقیت انجام شد"
+            "description": "Message",
+            "example": "User logged in successfully"
           },
           "code": {
             "type": "integer",
-            "description": "کد",
+            "description": "Code",
             "example": 200
           },
           "error": {
             "type": "boolean",
-            "description": "خطا",
+            "description": "Error status",
             "example": false
           },
           "data": {
@@ -317,58 +303,8 @@
             "properties": {
               "accessToken": {
                 "type": "string",
-                "description": "توکن دسترسی",
-                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjM0OGRkMTRmZmNkYTc2OGNlNWM0OCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODUyODUwNDksImV4cCI6MTY4NTM3MTQ0OX0.MKZK0JJkQbMP9dXZAr1en7pGrZEwOJEo_4axL2JpisY"
-              },
-              "refreshToken": {
-                "type": "string",
-                "description": "توکن تازه‌سازی",
-                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjM0OGRkMTRmZmNkYTc2OGNlNWM0OCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODUyODUwNDksImV4cCI6MTY4NTM3MTQ0OX0.MKZK0JJkQbMP9dXZAr1en7pGrZEwOJEo_4axL2JpisY"
-              },
-              "toBeSendUserData": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "type": "string",
-                    "description": "شناسه",
-                    "example": "646348dd14ffcda768ce5c48"
-                  },
-                  "username": {
-                    "type": "string",
-                    "description": "نام کاربری",
-                    "example": "john"
-                  },
-                  "firstname": {
-                    "type": "string",
-                    "description": "نام",
-                    "example": "John"
-                  },
-                  "lastname": {
-                    "type": "string",
-                    "description": "نام خانوادگی",
-                    "example": "Doe"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "ایمیل",
-                    "example": "salar.nili097@gmail.com"
-                  },
-                  "profile_url": {
-                    "type": "string",
-                    "description": "آدرس تصویر پروفایل",
-                    "example": "https://example.com/john_doe/profile.jpg"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "description": "شماره تلفن",
-                    "example": "+1-555-555-5555"
-                  },
-                  "settings": {
-                    "type": "array",
-                    "description": "تنظیمات",
-                    "items": []
-                  }
-                }
+                "description": "Access token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JiY2E5MWNlZDFkYmZkNDRhM2RkOCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODE2MzcwNzB9.vys-0Syk5Eq4KywH8fMSNyM49cW6P3BiY-bZ3hivR3g"
               }
             }
           }
@@ -379,12 +315,12 @@
         "properties": {
           "token": {
             "type": "string",
-            "description": "توکن تنظیم مجدد رمزعبور",
+            "description": "Password reset token",
             "example": "abeecc775eb7bdce080cccac07e19351c276a199"
           },
           "password": {
             "type": "string",
-            "description": "رمزعبور جدید",
+            "description": "New password",
             "example": "password123"
           }
         }
@@ -394,7 +330,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "ایمیل",
+            "description": "Email address",
             "example": "salar.nili097@gmail.com"
           }
         }
@@ -404,7 +340,7 @@
         "properties": {
           "refreshToken": {
             "type": "string",
-            "description": "توکن تازه‌سازی",
+            "description": "Refresh token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2JiY2E5MWNlZDFkYmZkNDRhM2RkOCIsInVzZXJuYW1lIjoiam9obiIsImVtYWlsIjoic2FsYXIubmlsaTA5N0BnbWFpbC5jb20iLCJpYXQiOjE2ODE2MzcwNzB9.vys-0Syk5Eq4KywH8fMSNyM49cW6P3BiY-bZ3hivR3g"
           }
         }
@@ -414,17 +350,17 @@
         "properties": {
           "message": {
             "type": "string",
-            "description": "پیام",
-            "example": "توکن تازه‌سازی با موفقیت ایجاد شد"
+            "description": "Message",
+            "example": "Refresh token created successfully"
           },
           "code": {
             "type": "integer",
-            "description": "کد",
+            "description": "Code",
             "example": 200
           },
           "error": {
             "type": "boolean",
-            "description": "خطا",
+            "description": "Error status",
             "example": false
           },
           "data": {
@@ -432,7 +368,7 @@
             "properties": {
               "accessToken": {
                 "type": "string",
-                "description": "توکن دسترسی جدید",
+                "description": "New access token",
                 "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODUyODU2MjAsImV4cCI6MTY4NTM3MjAyMH0.ziJvhpOE9J-C17xcJDgLBJiNYrnuRmmE9CiWHGW6nfs"
               }
             }
