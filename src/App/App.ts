@@ -11,8 +11,23 @@ import workspaceRouter from '../Routes/workspace/workspace.Route';
 import commentRouter from '../Routes/Comment/Comment.Route';
 import boardRouter from '../Routes/Board/Board.Route';
 import taskRouter from '../Routes/Task/Task.Route';
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('../../swagger.json'); 
+import swaggerUi from 'swagger-ui-express';
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ["**/*.ts"]
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+
+// Serve swagger docs
 
 require('dotenv').config();
 
@@ -24,8 +39,8 @@ app.use(cors());
 app.use(express.json());
 
 dbConnect();
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', swaggerUi.serve);
+app.get('/docs', swaggerUi.setup(openapiSpecification));
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/tags', tagRouter);

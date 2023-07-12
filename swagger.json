@@ -1,175 +1,254 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "API Documentation",
-      "description": "Documentation for API endpoints",
-      "version": "1.0.0"
-    },
-    "host": "localhost:3000",
-    "basePath": "/api",
-    "schemes": [
-      "http",
-      "https"
-    ],
-    "paths": {
-      "/auth/register": {
-        "post": {
-          "tags": [
-            "Authentication"
-          ],
-          "summary": "Register a new user",
-          "description": "Registers a new user with the provided information",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "user",
-              "description": "User object",
-              "schema": {
-                "$ref": "#/definitions/RegisterRequest"
-              }
+  "swagger": "2.0",
+  "info": {
+    "title": "API Documentation",
+    "description": "Documentation for API endpoints",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/users/{id}": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update a user by ID",
+        "description": "Updates the information of a user specified by their ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-          ],
-          "responses": {
-            "201": {
-              "description": "User registered successfully",
-              "schema": {
-                "$ref": "#/definitions/RegisterResponse"
-              }
-            },
-            "400": {
-              "description": "Bad request"
-            },
-            "409": {
-              "description": "Email address is already in use"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User object containing updated information",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UserUpdateRequest"
             }
           }
-        }
-      },
-      "/auth/login": {
-        "post": {
-          "tags": [
-            "Authentication"
-          ],
-          "summary": "Login",
-          "description": "Logs in a user with the provided credentials",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "credentials",
-              "description": "User credentials",
-              "schema": {
-                "$ref": "#/definitions/LoginRequest"
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdateResponse"
+                }
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "User logged in successfully",
-              "schema": {
-                "$ref": "#/definitions/LoginResponse"
-              }
-            },
-            "400": {
-              "description": "Invalid email/username or password"
-            }
-          }
-        }
-      },
-      "/auth/reset-password": {
-        "post": {
-          "tags": [
-            "Authentication"
-          ],
-          "summary": "Reset password",
-          "description": "Resets the user's password with the provided reset token",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "resetData",
-              "description": "Reset password data",
-              "schema": {
-                "$ref": "#/definitions/ResetPasswordRequest"
-              }
-            }
-          ],
-          "responses": {}
-        }
-      },
-      "/auth/forget-password": {
-        "post": {
-          "tags": [
-            "Authentication"
-          ],
-          "summary": "Forget password",
-          "description": "Sends a password reset email to the user's email address",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "emailData",
-              "description": "Forget password data",
-              "schema": {
-                "$ref": "#/definitions/ForgetPasswordRequest"
-              }
-            }
-          ],
-          "responses": {}
-        }
-      },
-      "/auth/refreshtoken": {
-        "post": {
-          "tags": [
-            "Authentication"
-          ],
-          "summary": "Refresh token",
-          "description": "Refreshes the access token with a valid refresh token",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "refreshTokenData",
-              "description": "Refresh token data",
-              "schema": {
-                "$ref": "#/definitions/RefreshTokenRequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Refresh token created successfully",
-              "schema": {
-                "$ref": "#/definitions/RefreshTokenResponse"
+          },
+          "403": {
+            "description": "You don't have access to change data of another user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
         }
       }
     },
-    "definitions": {
+    "/users/{usernameOrId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user by username or ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usernameOrId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Username or ID of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register a new user",
+        "description": "Registers a new user with the provided information",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "User object",
+            "schema": {
+              "$ref": "#/components/schemas/RegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Email address is already in use"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login",
+        "description": "Logs in a user with the provided credentials",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "credentials",
+            "description": "User credentials",
+            "schema": {
+              "$ref": "#/components/schemas/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email/username or password"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Reset password",
+        "description": "Resets the user's password with the provided reset token",
+        "consumes": ["application/json"],
+        "produces": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "resetData",
+            "description": "Reset password data",
+            "schema": {
+              "$ref": "#/components/schemas/ResetPasswordRequest"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/auth/forget-password": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Forget password",
+        "description": "Sends a password reset email to the user's email address",
+        "consumes": ["application/json"],
+        "produces": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "emailData",
+            "description": "Forget password data",
+            "schema": {
+              "$ref": "#/components/schemas/ForgetPasswordRequest"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/auth/refreshtoken": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Refresh token",
+        "description": "Refreshes the access token with a valid refresh token",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "refreshTokenData",
+            "description": "Refresh token data",
+            "schema": {
+              "$ref": "#/components/schemas/RefreshTokenRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refresh token created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
       "RegisterRequest": {
         "type": "object",
         "properties": {
@@ -374,7 +453,96 @@
             }
           }
         }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "UserUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message"
+          },
+          "code": {
+            "type": "integer",
+            "description": "Code"
+          },
+          "error": {
+            "type": "boolean",
+            "description": "Error status"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "description": "Username"
+              },
+              "firstname": {
+                "type": "string",
+                "description": "First name"
+              },
+              "lastname": {
+                "type": "string",
+                "description": "Last name"
+              },
+              "email": {
+                "type": "string",
+                "description": "Email address"
+              },
+              "profile_url": {
+                "type": "string",
+                "description": "Profile image URL"
+              },
+              "phone": {
+                "type": "string",
+                "description": "Phone number"
+              }
+            }
+          }
+        }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
   
+}
