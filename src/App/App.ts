@@ -11,6 +11,8 @@ import workspaceRouter from '../Routes/workspace/workspace.Route';
 import commentRouter from '../Routes/Comment/Comment.Route';
 import boardRouter from '../Routes/Board/Board.Route';
 import taskRouter from '../Routes/Task/Task.Route';
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../swagger.json'); 
 
 require('dotenv').config();
 
@@ -23,6 +25,7 @@ app.use(express.json());
 
 dbConnect();
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/tags', tagRouter);
