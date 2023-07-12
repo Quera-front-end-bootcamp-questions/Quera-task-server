@@ -6,14 +6,15 @@ import {
   forgotPasswordController,
   createRefreshTokenController,
 } from '../../Controller/AuthenticationController/Auth.Controller';
-import { sendResponse } from '../../Utils/SendResponse';
 
 const router = express.Router();
 
-// Register a new user
-router.get('/test', (req, res) => {
-  sendResponse(res, 200,{ test: 'test' }, 'success');
-});
+
+/**
+ * @openapi
+ * 
+ */
+
 router.post('/register', registerUserController);
 router.post('/login', loginUserController);
 router.post('/reset-password', resetPasswordController);
