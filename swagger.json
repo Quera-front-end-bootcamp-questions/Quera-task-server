@@ -539,7 +539,1130 @@
       }
     }
   },
-  "security": [
+    "openapi": "3.0.0",
+    "info-workspace": {
+      "title": "Workspace API",
+      "version": "1.0.0",
+      "description": "API documentation for Workspace"
+    },
+    "servers": [
+      {
+        "url": "{{baseurl}}"
+      }
+    ],
+    "paths-workspace": {
+      "/workspace/create": {
+        "post": {
+          "summary": "Create a workspace",
+          "operationId": "createWorkspace",
+          "parameters": [],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWorkspaceRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Workspace created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateWorkspaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/workspace/get-all": {
+        "get": {
+          "summary": "Get all workspaces",
+          "operationId": "getAllWorkspaces",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Workspaces fetched successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetAllWorkspacesResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/workspace/{id}": {
+        "get": {
+          "summary": "Get workspace by ID",
+          "operationId": "getWorkspaceById",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workspace found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/GetWorkspaceByIdResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update a workspace",
+          "operationId": "updateWorkspace",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateWorkspaceRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Workspace updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateWorkspaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a workspace",
+          "operationId": "deleteWorkspace",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Workspace deleted successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeleteWorkspaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/workspace/{workspaceId}/members/{usernameOrId}": {
+        "put": {
+          "summary": "Add a member to a workspace",
+          "operationId": "addWorkspaceMember",
+          "parameters": [
+            {
+              "name": "workspaceId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "usernameOrId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Member added to workspace successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AddWorkspaceMemberResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove a member from a workspace",
+          "operationId": "removeWorkspaceMember",
+          "parameters": [
+            {
+              "name": "workspaceId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "usernameOrId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Member removed from workspace successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RemoveWorkspaceMemberResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components-workspace": {
+      "schemas": {
+        "CreateWorkspaceRequest": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "color": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateWorkspaceResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {}
+                },
+                "projects": {
+                  "type": "array",
+                  "items": {}
+                },
+                "_id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "GetAllWorkspacesResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "user": {
+                    "type": "string"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "members": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "boards": {
+                          "type": "array",
+                          "items": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "GetWorkspaceByIdResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "firstname": {
+                      "type": "string"
+                    },
+                    "lastname": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "profile_url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "members": {
+                  "type": "array",
+                  "items": {}
+                },
+                "projects": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "members": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "boards": {
+                        "type": "array",
+                        "items": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "UpdateWorkspaceRequest": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "usernameOrId": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            }
+          }
+        },
+        "UpdateWorkspaceResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {}
+                },
+                "projects": {
+                  "type": "array",
+                  "items": {}
+                },
+                "image": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "DeleteWorkspaceResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "string"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {}
+                },
+                "projects": {
+                  "type": "array",
+                  "items": {}
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "__v": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "AddWorkspaceMemberResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "workspaceId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "RemoveWorkspaceMemberResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "workspaceId": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    ,{
+      "openapi": "3.0.0",
+      "info-Project": {
+        "title": "Project API",
+        "version": "1.0.0"
+      },
+      "paths-Project": {
+        "/projects": {
+          "post": {
+            "summary": "Create a new project",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateProjectRequest"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Project created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ProjectResponse"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/projects/{id}": {
+          "get": {
+            "summary": "Get a project by ID",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Project retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ProjectResponse"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/projects/workspaces/{id}": {
+          "get": {
+            "summary": "Get projects by workspace ID",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Projects retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ProjectsResponse"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Server error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components-Project": {
+        "schemas": {
+          "CreateProjectRequest": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "workspaceId": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              }
+            }
+          },
+          "ProjectResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "workspace": {
+                    "type": "string"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Member"
+                    }
+                  },
+                  "_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "ProjectsResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "Member": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "role": {
+                "type": "string"
+              }
+            }
+          },
+          "Project": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "workspace": {
+                "type": "string"
+              },
+              "members": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Member"
+                }
+              },
+              "boards": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Board"
+                }
+              }
+            }
+          },
+          "Board": {
+            "type": "object",
+            "properties": {
+              "board": {
+                "type": "string"
+              },
+              "position": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "_id": {
+                "type": "string"
+              }
+            }
+          },
+          "Error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+      ,"paths-Project": {
+        "/projects/{id}": {
+          "put": {
+            "summary": "Update a project",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UpdateProjectRequest"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UpdateProjectResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/projects/{id}": {
+          "delete": {
+            "summary": "Delete a project",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/DeleteProjectResponse"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Failed",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/projects/{projectId}/members/{usernameOrId}": {
+          "put": {
+            "summary": "Add a member to a project",
+            "parameters": [
+              {
+                "name": "projectId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "usernameOrId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/AddMemberResponse"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Duplicated add request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "delete": {
+            "summary": "Remove a member from a project",
+            "parameters": [
+              {
+                "name": "projectId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "usernameOrId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/RemoveMemberResponse"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "User is not a member of this project",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "UpdateProjectRequest": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "UpdateProjectResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "$ref": "#/components/schemas/ProjectData"
+              }
+            }
+          },
+          "DeleteProjectResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "$ref": "#/components/schemas/ProjectData"
+              }
+            }
+          },
+          "AddMemberResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "RemoveMemberResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "ErrorResponse": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "error": {
+                "type": "boolean"
+              },
+              "data": {
+                "type": "null"
+              }
+            }
+          },
+          "ProjectData": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "workspace": {
+                "type": "string"
+              },
+              "members": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "boards": {
+                "type": "array",
+                "items": {}
+              }
+            }
+          }
+        }
+      }
+    }
+    ,"security": [
     {
       "bearerAuth": []
     }

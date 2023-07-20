@@ -1,0 +1,622 @@
+swagger: '2.0'
+info:
+  title: Task Manager API
+  description: This is the Documentation for Task Manager Project
+  version: '1.0'
+  contact:
+    email: davoodgh0251@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://apache.org/'
+
+schemes: [http, https]
+paths:
+
+  #USER
+
+  /api/users/{usernameOrId}:
+    get:
+      summary: Returns the users of our App
+      description: after Registration and Login you can see the List of users in your app and their related works
+      tags:
+      - USER
+      parameters:
+        - name: user
+          type: string
+          in: path
+          required: true
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: object
+            example: {}
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+  /api/users/{id}:
+    put:
+      summary: Returns the Updated User
+      description: You can modify the users properties and get the updated user here
+      tags:
+      - USER
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+
+   #Auth
+
+  /api/auth/register:
+    post:
+      summary: Returns the Authentication features of our App
+      description: This authentication contains Registering, Login, Reset and Forget Password and RefreshTokens
+      tags:
+      - AUTHENTICATION
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+  /api/auth/login:
+    post:
+      summary: Returns the Authentication features of our App
+      description: This authentication contains Registering, Login, Reset and Forget Password and RefreshTokens
+      tags:
+      - AUTHENTICATION
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+  /api/auth/reset-password:
+    post:
+      summary: Returns the Authentication features of our App
+      description: This authentication contains Registering, Login, Reset and Forget Password and RefreshTokens
+      tags:
+      - AUTHENTICATION
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+  /api/auth/forget-password:
+    post:
+      summary: Returns the Authentication features of our App
+      description: This authentication contains Registering, Login, Reset and Forget Password and RefreshTokens
+      tags:
+      - AUTHENTICATION
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+  /api/auth/refreshtoken:
+    post:
+      summary: Returns the Authentication features of our App
+      description: This authentication contains Registering, Login, Reset and Forget Password and RefreshTokens
+      tags:
+      - AUTHENTICATION
+      responses:
+        200:
+          description: User retrieved successfully
+          schema:
+            type: string
+            example: Davoud Ghargouzlou
+        404:
+          description: User not found
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou does not Exist
+        500:
+          description: Server error
+          schema:
+            type: string
+            example: user Davoud Ghargouzlou Not found in the server
+
+     #Workspace
+  /api/workspace/create:
+    post:
+      summary: Here you can create Workspaces
+      description: create workspace
+      tags:
+      - WORKSPACE
+      responses:
+        201:
+          description: workspace created successfully
+        500:
+          description: Server error
+  /api/workspace/get-all:
+    get:
+      summary: Here you can get all Workspaces
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: Workspaces fetched successfully
+        500:
+          description: Server error
+  /api/workspace/{id}/get:
+    get:
+      summary: Here you can get all Workspaces
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: Workspace found
+        401:
+          description: Not authorized
+        404:
+          description: Workspace not found
+        500:
+          description: Server error
+  /api/workspace/{id}/update:
+    patch:
+      summary: Here you update your Workspaces
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: workspace updated successfully
+        500:
+          description: id param is missing
+  /api/workspace/:workspaceId/members/:usernameOrId:
+    put:
+      summary: Here you can add workspace member
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: workspace updated successfully
+
+#here we need 2 of 404 status code. one for not having workspace and one for not having user. and i do not know how to do this
+
+        400:
+          description: Username or member ID is required
+        404:
+          description: User not found
+  /api/workspace/{id}:
+    delete:
+      summary: Here you can delete a workspace
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: workspace deleted successfully
+        500:
+          description: id param is missing
+  /api/:workspaceId/members/:usernameOrId:
+    delete:
+      summary: Here you can remove workspace member
+      description: all workspace
+      tags:
+      - WORKSPACE
+      responses:
+        200:
+          description: Member removed from workspace successfully
+        400:
+          description: Username or member ID is required
+
+#here we need 2 of 404 status code. one for not having workspace and one for not having user. and i do not know how to do this
+
+        404:
+          description: User Not Found
+  /api/projects:
+    post:
+      summary: Here you can create a project
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: Project created successfully
+        500:
+          description: Server error
+  /api/projects/{id}:
+    get:
+      summary: Here you can get projects by ID
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: Project retrieved successfully
+        500:
+          description: Server error
+  /api/projects/workspaces/{id}:
+    get:
+      summary: Here you can get projects workspace ID
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: Project retrieved successfully
+        500:
+          description: Server error
+  /api/projects/{id}/update:
+    put:
+      summary: Here you can update projects
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: Project updated successfully
+        500:
+          description: Server error
+  /api/projects/{id}/delete:
+    delete:
+      summary: Here you can update projects
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: Project deleted successfully
+        500:
+          description: Server error
+  /api/projects/{projectId}/members/{usernameOrId}/add:
+    put:
+      summary: Here you can add members to project
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: User has been added to the project
+        500:
+          description: Server error
+        # 400:
+        # description: Bad request
+        # content:
+        #   application/json:
+        #     schema:
+        #       oneOf:
+        #         - $ref: '#/components/schemas/Invalid project ID'
+        #         - $ref: '#/components/schemas/Both projectId and usernameOrId are required'
+        # 400:
+        # description: User not found
+        # schema:
+        #   type: object
+        #   properties:
+        #     error:
+        #       type: string
+        #       example: User not found
+        #   components:
+        #     schemas:
+        #       Invalid project ID:
+        #         type: object
+        #          properties:
+        #            error:
+        #              type: string
+        #              example: Invalid request parameters
+        #       Both projectId and usernameOrId are required:
+        #          type: object
+        #          properties:
+        #             error:
+        #             type: string
+        #             example: User ID is not valid
+  /api/projects/{projectId}/members/{usernameOrId}/delete:
+    delete:
+      summary: Here you can remove member from project
+      description: all workspace
+      tags:
+      - PROJECTS
+      responses:
+        201:
+          description: User has been removed from the project
+        500:
+          description: Server error
+
+#here we need 2 of 404 status code. one for not having workspace and one for not having user. and i do not know how to do this
+
+  /api/board:
+    post:
+      summary: Here you can create boards
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        201:
+          description: Board created successfully
+        500:
+          description: Server error
+  /api/board/{projectId}:
+    get:
+      summary: Here you can get all project boards
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        201:
+          description: Boards fetched successfully
+        500:
+          description: Server error
+  /api/board/{id}/update:
+    put:
+      summary: Here you can rename board
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        201:
+          description: Board updated successfully
+        500:
+          description: Server error
+  /api/board/{id}/position/{index}:
+    put:
+      summary: Here you can change the board position
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        201:
+          description: Board updated successfully
+        500:
+          description: Server error
+  /api/board/{id}/tasks:
+    get:
+      summary: Here you can get board's task
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        200:
+          description: Tasks retrieved successfully
+        404:
+          description: Board not found
+        500:
+          description: Server error
+  /api/board/{id}/delete:
+    delete:
+      summary: Here you can delete board by id
+      description: all workspace
+      tags:
+      - BOARD
+      responses:
+        201:
+          description: Board deleted successfully
+        500:
+          description: Server error
+  /api/task:
+    post:
+      summary: Here you can create a task
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: Boards fetched successfully
+        500:
+          description: Server error
+  /api/task/{id}/getTask:
+    get:
+      summary: Here you can get task by id
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: task fetched successfully
+        400:
+          description: Task not found
+        500:
+          description: Server error
+  /api/task/{id}/deleteTask:
+    delete:
+      summary: Here you can get task by id
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: Board deleted successfully
+        400:
+          description: Task not found
+        500:
+          description: Server error
+  /api/task/{taskId}/assign/{usernameOrId}/delete:
+    delete:
+      summary: Here you can unassign task from user
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: Task unassigned successfully.
+        400:
+          description: Task is not assigned to the user.
+        500:
+          description: An error occurred.
+  /api/task/{id}/position/{index}:
+    put:
+      summary: Here you can change task position
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: Board updated successfully
+        400:
+          description: Cannot move task to the same board
+        404:
+          description: Task not found
+        500:
+          description: Server error
+  /api/task/{id}/board/{boardId}:
+    put:
+      summary: Here you can change task's board
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: task moved to new board
+        400:
+          description: Cannot move task to the same board
+        404:
+          description: Task not found
+        500:
+          description: Server error
+  /api/task/{taskId}/assign/{usernameOrId}/assign:
+    put:
+      summary: Here you assign task to user
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: Task assigned to user
+        400:
+          description: Task already assigned to this user
+        404:
+          description: Task not found
+        500:
+          description: Server error
+  /api/task/{id}/deleteTask/update:
+    put:
+      summary: Here you can update task info
+      description: all workspace
+      tags:
+      - TASK
+      responses:
+        200:
+          description: task updated successfully
+        404:
+          description: Task not found
+        500:
+          description: Server error
+  /api/comments:
+    post:
+      summary: Here you can create new comment
+      description: all workspace
+      tags:
+      - COMMENT
+      responses:
+        200:
+          description: Comment created successfully.
+        500:
+          description: Server error
+  /api/comments/task/{taskId}:
+    get:
+      summary: Here you can get comments by task Id
+      description: all workspace
+      tags:
+      - COMMENT
+      responses:
+        200:
+          description: Comments retrieved successfully
+        500:
+          description: Server error
+  /api/comments/{id}/get:
+    get:
+      summary: Here you can get comments by comment Id
+      description: all workspace
+      tags:
+      - COMMENT
+      responses:
+        200:
+          description: Comments retrieved successfully
+        404:
+          description: comment not found
+        500:
+          description: Server error
+  /api/comments/{id}/update:
+    patch:
+      summary: Here you can edit comments
+      description: all workspace
+      tags:
+      - COMMENT
+      responses:
+        200:
+          description: Comment updated successfully
+        404:
+          description: comment not found
+        500:
+          description: Server error
+  /api/comments/{id}/delete:
+    delete:
+      summary: Here you can delete comment by id
+      description: all workspace
+      tags:
+      - COMMENT
+      responses:
+        200:
+          description: Comment deleted successfully
+        404:
+          description: comment not found
+        500:
+          description: Server error
